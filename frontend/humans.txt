@@ -1,0 +1,10 @@
+/* TEAM */
+	Web Developer:Gerald Michael Austria
+	Contact: hello [at] humanstxt.org
+	Twitter: @luckygii14
+	From:Olongapo City, Zambales, Philippines
+
+/* SITE */
+	Language:English
+	Doctype:HTML5
+	IDE: Sublime Text

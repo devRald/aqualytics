@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="IoT Project">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Untitled</title>
+    <link rel="author" href="humans.txt">
+    <link rel="stylesheet" href="vendor/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/css/font-awesome.min.css">
+    <link rel="stylesheet" href="vendor/css/prem.mdb2.min.css">
+    <link rel="stylesheet" href="vendor/css/prism.min.css">
+    <link rel="stylesheet" href="vendor/css/chartist.min.css">
+    <link rel="stylesheet" href="vendor/css/style.css">
+</head>
+
+<body class="fixed-sn mdb-skin">
+    <header>
+        <!-- Sidebar navigation -->
+        <ul id="slide-out" class="side-nav fixed custom-scrollbar ps-container ps-theme-default">
+            <!-- Logo -->
+            <li>
+                <div class="logo-wrapper waves-light waves-effect waves-light">
+                    <a href="#"><img src="http://mdbootstrap.com/wp-content/uploads/2015/12/mdb-white2.png" class="img-fluid flex-center"></a>
+                </div>
+            </li>
+            <!--/. Logo -->
+            <br>
+            <!-- Side navigation links -->
+            <li>
+                <ul class="collapsible collapsible-accordion">
+                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-chevron-right"></i> Home</i></a>
+                    </li>
+                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-eye"></i> Notification</a>
+                    </li>
+                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-eye"></i> Setting</a>
+                    </li>
+                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-envelope-o"></i> Reports</a>
+                    </li>
+                </ul>
+            </li>
+            <!--/. Side navigation links -->
+            <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
+                <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+            </div>
+            <div class="ps-scrollbar-y-rail" style="top: 0px; right: 0px;">
+                <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+            </div>
+        </ul>
+        <!--/. Sidebar navigation -->
+        <!--Navbar-->
+        <nav class="navbar navbar-fixed-top scrolling-navbar double-nav mobile-nofixed">
+            <!-- SideNav slide-out button -->
+            <div class="float-xs-left collapse">
+                <a href="#" data-activates="slide-out" class="button-collapse"><i class="fa fa-bars"></i></a>
+            </div>
+            <!-- Breadcrumb-->
+            <div class="breadcrumb-dn">
+                <p>AquaLytics</p>
+            </div>
+            <ul class="nav navbar-nav float-xs-right">
+                <li class="nav-item ">
+                    <a class="nav-link waves-effect waves-light"><i class="fa fa-envelope"></i> <span class="hidden-sm-down">Contact</span></a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link waves-effect waves-light"><i class="fa fa-comments-o"></i> <span class="hidden-sm-down">Support</span></a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link waves-effect waves-light"><i class="fa fa-user"></i> <span class="hidden-sm-down">Account</span></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle waves-effect waves-light" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> Profile</a>
+                    <div class="dropdown-menu dropdown-primary dd-right" aria-labelledby="dropdownMenu1" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                        <a class="dropdown-item waves-effect waves-light" href="#">Action</a>
+                        <a class="dropdown-item waves-effect waves-light" href="#">Another action</a>
+                        <a class="dropdown-item waves-effect waves-light" href="#">Something else here</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <!--/.Navbar-->
+    </header>
+    <main>
+        <div class="container-fluid">
+        	<div class="row">
+        		<div class="col-sm-12">
+            	<div id="myChart"></div>
+        		</div>
+        	</div>
+        </div>
+    </main>
+    <script src="vendor/js/jquery-3.1.1.min.js"></script>
+    <script src="vendor/js/tether.min.js"></script>
+    <script src="vendor/js/bootstrap.min.js"></script>
+    <script src="vendor/js/prem.mdb.min.js"></script>
+    <script src="vendor/js/chartist.min.js"></script>
+    <script src="assets/js/aqualytics.js"></script>
+    <script>
+    Aqualytics().getData();
+
+    // SideNav init
+    $(".button-collapse").sideNav();
+
+    // Custom scrollbar init
+    var el = document.querySelector('.custom-scrollbar');
+    Ps.initialize(el);
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+@media only screen and (min-width: 1200px){
+	
+}
+@media only screen and (min-width: 992px){
+	.fixed-sn main, .mobile-nofixed{
+		margin-left: 240px;
+	}
+	.fixed-sn ul#slide-out{
+		left:240px;
+	}
+	.collapse{
+		display: hidden;
+	}
+}
+@media only screen and (max-width: 992px){
+	.collapse{
+		display: block;
+	}
+}
+@media only screen and (min-width: 544px){
+	.container-fluid{
+		margin-right: 0px;
+	}
+}
+@media only screen and (min-width: 0px){
+}
+
+.side-nav,
+.navbar{
+	background: #002949 !important;
+}
+
+.fixed-sn main{
+	margin-right: 0%;
+}
