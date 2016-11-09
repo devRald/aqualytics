@@ -76,21 +76,18 @@
     <main>
 
         <div class="container-fluid">
-        	<div class="row ">
-        		<div class="col-md-6 " style="background-color: #e6e6ff">
+        	<div class="row">
+        		<div class="col-md-8" style="background-color: #e6e6ff">
         			<div style="margin-top: 5px"><h5>For graph</h5></div>
         			<hr>
             	    <!-- <div class="ct-chart"></div> -->
                     <canvas id="myChart"></canvas>
         		</div>
-                <div class="col-md-6 " style="background-color: #e6e6ff">
-                    <div style="margin-top: 5px"><h5>For graph</h5></div>
-                    <hr>
-                    <div style="margin:50px;position: relative;">
+                <div class="col-md-4">
+                    <div id="wrapper">
+                        <img class="needle" src="assets/img/gauge-needle.svg" alt="">
                         <canvas id="myPie"></canvas>
-                        <div id="meter-needle"><img src="assets/img/gauge-needle.svg" alt=""></div>
                     </div>
-                    <!-- <div class="ct-chart"></div> -->
                 </div>
         	</div>
         </div>
@@ -106,9 +103,7 @@
     Aqualytics().getData();
 
     // SideNav init
-    $(".button-collapse").sideNav({
-      closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
-    });
+    $(".button-collapse").sideNav();
 
     </script>
 </body>

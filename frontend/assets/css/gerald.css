@@ -35,22 +35,40 @@
 }
 
 #wrapper{
-  width: 400px;
-  height: 400px;
   position: relative;
 }
- 
-#meter{
-  width: 100%;
-  height: 100%;
-  transform: rotateX(180deg);
+
+meter{
+	width: 100%;
 }
 
-#meter-needle {
-  left: 200px;
-  margin: auto;
-  bottom: 10px;
-  position: absolute;
-  transform-origin: bottom center;
-  transform: rotate(270deg);
+.needle{
+	position: absolute;
+	left:45%;
+	bottom: 0%;
+	transform-origin: bottom center;
+	transform: rotate(270deg);
+	height: 100%;
+}
+
+meter::-webkit-meter-optimum-value {
+  -webkit-transition: width .5s;
+}
+
+meter::-webkit-meter-optimum-value{
+  /* Reset each sub-category to 20% */
+  background-image: linear-gradient(
+    90deg, 
+    #8bcf69 20%, 
+    #e6d450 20%,
+    #e6d450 40%,
+    #f28f68 40%,
+    #f28f68 60%,
+    #cf82bf 60%,
+    #cf82bf 80%,
+    #719fd1 80%,
+    #719fd1 100%
+  );
+  transition: width .5s;
+  width: 100% !important; /* !important required. to override the inline styles in WebKit. */
 }
