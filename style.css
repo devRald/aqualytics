@@ -1,4 +1,4 @@
-@media only screen and (min-width: 1200px){
+/* @media only screen and (min-width: 1200px){
 	
 }
 @media only screen and (min-width: 992px){
@@ -33,24 +33,4 @@
 .fixed-sn main{
 	margin-right: 0%;
 }
-
-#wrapper{
-  width: 400px;
-  height: 400px;
-  position: relative;
-}
- 
-#meter{
-  width: 100%;
-  height: 100%;
-  transform: rotateX(180deg);
-}
-
-#meter-needle {
-  left: 200px;
-  margin: auto;
-  bottom: 10px;
-  position: absolute;
-  transform-origin: bottom center;
-  transform: rotate(270deg);
-}
+ */

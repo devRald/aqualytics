@@ -3,57 +3,82 @@
 			return fn;
 		}
 
-		fn.getData = function(data){
-			fn.initGraph(data);
+		fn.getData = function(){
+			fn.initLine();
+			fn.initDoughnut();
 		}
 
-		fn.initGraph = function(data){
-			/* Initialize the chart with the above settings */
-			new Chartist.Line('.ct-chart', data, 
-			{
-				high:14,
-				low: 0,
-				divisor:10,
-				height: '300px',
-			  fullWidth: true,
-			  chartPadding: {
-			    right: 30
-			  },lineSmooth: Chartist.Interpolation.cardinal({
-			    tension: 10
-			  })
+		fn.initDoughnut = function(){
+			var data = {
+		    labels: [
+		        "Red",
+		        "Blue",
+		        "Yellow"
+		    ],
+		    datasets: [
+		        {
+		            data: [300, 50, 100],
+		            backgroundColor: [
+		                "#FF6384",
+		                "#36A2EB",
+		                "#FFCE56"
+		            ],
+		            hoverBackgroundColor: [
+		                "#FF6384",
+		                "#36A2EB",
+		                "#FFCE56"
+		            ]
+		        }]
+			};
+
+			var option = {
+				circumference: 1 * Math.PI,
+				rotation: 1 * Math.PI,
+				cutoutPercentage: 80,
+				legend: {
+			    display: false,
+			      labels: {
+			        display: false
+			      }
+			  }
+			}
+
+	    var ctx = d.getElementById("myPie").getContext('2d');
+			var myPieChart = new Chart(ctx,{
+		    type: 'doughnut',
+		    data: data,
+		    options: option
 			});
 		}
 
-		fn.refreshGraph = function(){
+		fn.initLine = function(){
 			var data = {
 	        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
 	        datasets: [{
-	            label: "My First dataset",
+	            label: "Ph Level of Water",
 	            fillColor: "rgba(220,220,220,0.2)",
-	            strokeColor: "rgba(220,220,220,1)",
-	            pointColor: "rgba(220,220,220,1)",
-	            pointStrokeColor: "#fff",
-	            pointHighlightFill: "#fff",
-	            pointHighlightStroke: "rgba(220,220,220,1)",
-	            data: [65, 59, 80, 100, 56, 55, 40]
-	        }, {
-	            label: "My Second dataset",
-	            fillColor: "rgba(151,187,205,0.2)",
-	            strokeColor: "rgba(151,187,205,1)",
-	            pointColor: "rgba(151,187,205,1)",
-	            pointStrokeColor: "#fff",
-	            pointHighlightFill: "#fff",
-	            pointHighlightStroke: "rgba(151,187,205,1)",
-	            data: [28, 48, 40, 19, 86, 27, 90]
+	            borderColor: "#2196F3",
+	            pointBackgroundColor: "#1976D2",
+	            pointBorderColor: "#fff",
+	            pointHoverBackgroundColor:"#FF5252",
+	            data: [14, 3, 7, 7.9, 8, 5, 6],
+	            lineTension:1
 	        }]
 	    };
 
 	    var option = {
 	        responsive: true,
+	        hover: {
+            mode: 'label'
+	        }
 	    };
 	    // Get the context of the canvas element we want to select
 	    var ctx = d.getElementById("myChart").getContext('2d');
-	    var myLineChart = new Chart(ctx).Line(data, option);
+	    var myLineChart = new Chart(ctx, {
+		    type: 'line',
+		    data: data,
+		    options: option
+			});
 		}
 
 		window.Aqualytics = fn;
