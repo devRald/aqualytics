@@ -11,10 +11,22 @@
 	.collapse{
 		display: hidden;
 	}
+	.fixed-sn main, .hidden-sn main{
+		padding-top: 4.5em;
+	}
+	.weather-icon{
+		width:55px;
+	}
 }
 @media only screen and (max-width: 992px){
 	.collapse{
 		display: block;
+	}
+	.fixed-sn main, .hidden-sn main{
+		padding-top: 1em;
+	}
+	.weather-icon{
+		width:53px;
 	}
 }
 @media only screen and (min-width: 544px){
