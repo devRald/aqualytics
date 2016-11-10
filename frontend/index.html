@@ -20,8 +20,8 @@
         <ul id="slide-out" class="side-nav custom-scrollbar">
             <!-- Logo -->
             <li>
-                <div class="logo-wrapper waves-light waves-effect waves-light">
-                    <a href="#"><img src="http://mdbootstrap.com/wp-content/uploads/2015/12/mdb-white2.png" class="img-fluid flex-center"></a>
+                <div class="aqualytics-wrapper waves-light waves-effect waves-light">
+                    <img src="assets/img/aqualytics.jpg" class="app-cover img-fluid flex-center">
                 </div>
             </li>
             <!--/. Logo -->
@@ -35,7 +35,16 @@
                     </li>
                     <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-wrench"></i> Setting</a>
                     </li>
-                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-bug"></i> Reports</a>
+                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-bug"></i> Reports 
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    </a>
+                        <div class="collapsible-body">
+                            <ul class="sub-menu">
+                                <li class="menu-item"><a class="collapsible-header waves-effect" href="#">Daily Reports</a></li>
+                                <li class="menu-item"><a class="collapsible-header waves-effect" href="#">Weekly Reports</a></li>
+                                <li class="menu-item"><a class="collapsible-header waves-effect" href="#">Month Reports</a></li>
+                            </ul>
+                        </div>
                     </li>
                 </ul>
             </li>
@@ -75,8 +84,27 @@
     </header>
     <main>
         <div class="container-fluid">
-        	<div class="row">
-                <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-6" style="background-color: #e6e6ff">
+                    <div style="margin-top: 5px">
+                        <h5>For graph</h5></div>
+                    <hr>
+                    <!-- <div class="ct-chart"></div> -->
+                    <canvas id="myChart"></canvas>
+                </div>
+                <div class="col-md-6" style="background-color: #e6e6ff">
+                    <div style="margin-top: 5px">
+                        <h5>For graph</h5></div>
+                    <hr>
+                    <canvas id="myTemp"></canvas>
+                </div>
+                <div class="col-md-4 ph-container">
+                    <div id="wrapper">
+                        <img class="needle" src="assets/img/gauge-needle.svg" alt="">
+                        <canvas id="myPie"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-4 card-container">
                     <!--Panel-->
                     <div class="card">
                         <div class="card-header light-blue darken-4 white-text">
@@ -88,19 +116,7 @@
                     </div>
                     <!--/.Panel-->
                 </div>
-                <div class="col-md-4">
-                    <!--Panel-->
-                    <div class="card">
-                        <div class="card-header blue accent-4 white-text">
-                            pH Level
-                        </div>
-                        <div class="card-block flex-center">
-                            <h1 class="card-title">7 - Neutral</h1>
-                        </div>
-                    </div>
-                    <!--/.Panel-->
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-4 card-container">
                     <!--Panel-->
                     <div class="card">
                         <div class="card-header blue darken-4 white-text">
@@ -112,19 +128,7 @@
                     </div>
                     <!--/.Panel-->
                 </div>
-        		<div class="col-md-8" style="background-color: #e6e6ff">
-        			<div style="margin-top: 5px"><h5>For graph</h5></div>
-        			<hr>
-            	    <!-- <div class="ct-chart"></div> -->
-                    <canvas id="myChart"></canvas>
-        		</div>
-                <div class="col-md-4">
-                    <div id="wrapper">
-                        <img class="needle" src="assets/img/gauge-needle.svg" alt="">
-                        <canvas id="myPie"></canvas>
-                    </div>
-                </div>
-        	</div>
+            </div>
         </div>
     </main>
     <script src="vendor/js/jquery-3.1.1.min.js"></script>
@@ -138,7 +142,6 @@
 
     // SideNav init
     $(".button-collapse").sideNav();
-
     </script>
 </body>
 

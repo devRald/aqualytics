@@ -17,6 +17,12 @@
 	.weather-icon{
 		width:55px;
 	}
+	.card-container{
+		margin-top: 40px;
+	}
+	.ph-container{
+		margin-top: 20px;
+	}
 }
 @media only screen and (max-width: 992px){
 	.collapse{
@@ -42,6 +48,19 @@
 	background: #002949 !important;
 }
 
+.aqualytics-wrapper{
+	position: relative;
+	height: 100px;
+	margin:0;
+	padding:0;
+}
+
+.app-cover{
+	width: 100%;
+	height: 100%;
+	border-radius: 0;
+}
+
 .fixed-sn main{
 	margin-right: 0%;
 }
@@ -50,9 +69,6 @@
   position: relative;
 }
 
-meter{
-	width: 100%;
-}
 
 .needle{
 	position: absolute;
@@ -79,26 +95,4 @@ meter{
 	to{
 		-webkit-transform: rotate(-90deg);
 	}
-}
-
-meter::-webkit-meter-optimum-value {
-  -webkit-transition: width .5s;
-}
-
-meter::-webkit-meter-optimum-value{
-  /* Reset each sub-category to 20% */
-  background-image: linear-gradient(
-    90deg, 
-    #8bcf69 20%, 
-    #e6d450 20%,
-    #e6d450 40%,
-    #f28f68 40%,
-    #f28f68 60%,
-    #cf82bf 60%,
-    #cf82bf 80%,
-    #719fd1 80%,
-    #719fd1 100%
-  );
-  transition: width .5s;
-  width: 100% !important; /* !important required. to override the inline styles in WebKit. */
 }
