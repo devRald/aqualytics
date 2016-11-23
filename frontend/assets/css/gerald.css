@@ -45,7 +45,7 @@
 
 .side-nav,
 .navbar{
-	background: #002949 !important;
+	background:#3f729b !important;
 }
 
 .aqualytics-wrapper{
@@ -71,16 +71,74 @@
 
 
 .needle{
+	transition: transform 1s;
 	position: absolute;
+	transform-origin: bottom center;
 	left:46%;
 	bottom: 0%;
-	transform-origin: bottom center;
-	transform: rotate(-90deg);
-	animation:spin 4s linear infinite;
 	height: 99%;
 }
 
-@-moz-keyframes spin { 
+.wlevel-0{
+	transform: rotate(-83deg);
+}
+
+.wlevel-1{
+	transform: rotate(-71deg);
+}
+
+.wlevel-2{
+	transform: rotate(-58deg);
+}
+
+.wlevel-3{
+	transform: rotate(-45deg);
+}
+
+.wlevel-4{
+	transform: rotate(-32deg);
+}
+
+.wlevel-5{
+	transform: rotate(-20deg);
+}
+
+.wlevel-6{
+	transform: rotate(-7deg);
+}
+
+.wlevel-7{
+	transform: rotate(5deg);
+}
+
+.wlevel-8{
+	transform: rotate(18deg);
+}
+
+.wlevel-9{
+	transform: rotate(31deg);
+}
+
+.wlevel-10{
+	transform: rotate(44deg);
+}
+
+.wlevel-11{
+	transform: rotate(57deg);
+}
+
+.wlevel-12{
+	transform: rotate(70deg);
+}
+
+.wlevel-13{
+	transform: rotate(83deg);
+}
+
+
+
+
+/* @-moz-keyframes spin { 
 	from{
 		-moz-transform: rotate(90deg);
 	}
@@ -95,4 +153,4 @@
 	to{
 		-webkit-transform: rotate(-90deg);
 	}
-}
+} */
