@@ -1,159 +1,24 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="description" content="IoT Project">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Untitled</title>
-    <link rel="author" href="humans.txt">
-    <link rel="stylesheet" href="vendor/css/bootstrap.min.css">
-    <link rel="stylesheet" href="vendor/css/font-awesome.min.css">
-    <link rel="stylesheet" href="vendor/css/prem.mdb2.min.css">
-    <link rel="stylesheet" href="vendor/css/prism.min.css">
-    <link rel="stylesheet" href="assets/css/gerald.css">
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="./assets/js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			if(localStorage.getItem("userdata")){
+				var a = JSON.parse(atob(localStorage.getItem("userdata"))) || [];
+				if(a.length!=0){
+					location.href = (a.user_type=="admin" ? "./admin/dashboard.html" : "./user/dashboard.html");
+				}else{
+					location.href = "login.html";
+				}
+			}else{
+					location.href = "login.html";
+			}
+		})
+	</script>
 </head>
-
-<body class="fixed-sn mdb-skin">
-    <header>
-        <!-- Sidebar navigation -->
-        <ul id="slide-out" class="side-nav custom-scrollbar">
-            <!-- Logo -->
-            <li>
-                <div class="aqualytics-wrapper waves-light waves-effect waves-light">
-                    <img src="assets/img/aqualytics.jpg" class="app-cover img-fluid flex-center">
-                </div>
-            </li>
-            <!--/. Logo -->
-            <br>
-            <!-- Side navigation links -->
-            <li>
-                <ul class="collapsible collapsible-accordion">
-                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-home"></i> Home</i></a>
-                    </li>
-                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-exclamation-circle"></i> Notification</a>
-                    </li>
-                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-wrench"></i> Setting</a>
-                    </li>
-                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-bug"></i> Reports 
-                        <i class="fa fa-angle-down rotate-icon"></i>
-                    </a>
-                        <div class="collapsible-body">
-                            <ul class="sub-menu">
-                                <li class="menu-item"><a class="collapsible-header waves-effect" href="#">Daily Reports</a></li>
-                                <li class="menu-item"><a class="collapsible-header waves-effect" href="#">Weekly Reports</a></li>
-                                <li class="menu-item"><a class="collapsible-header waves-effect" href="#">Month Reports</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        <!--/. Sidebar navigation -->
-        <!--Navbar-->
-        <nav class="navbar navbar-fixed-top scrolling-navbar double-nav mobile-nofixed">
-            <!-- SideNav slide-out button -->
-            <div class="float-xs-left collapse">
-                <a href="#" data-activates="slide-out" class="button-collapse"><i class="fa fa-bars"></i></a>
-            </div>
-            <!-- Breadcrumb-->
-            <div class="breadcrumb-dn">
-                <p>AquaLytics</p>
-            </div>
-            <ul class="nav navbar-nav float-xs-right">
-                <li class="nav-item envelope">
-                    <a class="nav-link waves-effect waves-light"><i class="fa fa-envelope"></i> <span class="hidden-sm-down">Contact</span></a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link waves-effect waves-light"><i class="fa fa-comments-o"></i> <span class="hidden-sm-down">Support</span></a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link waves-effect waves-light"><i class="fa fa-user"></i> <span class="hidden-sm-down">Account</span></a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle waves-effect waves-light" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> Profile</a>
-                    <div class="dropdown-menu dropdown-primary dd-right" aria-labelledby="dropdownMenu1" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                        <a class="dropdown-item waves-effect waves-light" href="#">Action</a>
-                        <a class="dropdown-item waves-effect waves-light" href="#">Another action</a>
-                        <a class="dropdown-item waves-effect waves-light" href="#">Something else here</a>
-                    </div>
-                </li>
-            </ul>
-        </nav>
-        <!--/.Navbar-->
-    </header>
-    <main>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card">
-                        <h3 class="card-header info-color-dark white-text">pH Level</h3>
-                        <div class="card-block" style="padding-left:0px;padding-right:15px;padding-top:0px">
-                            <canvas id="myChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <h3 class="card-header danger-color-dark white-text">Temperature</h3>
-                        <div class="card-block" style="padding-left:0px;padding-right:15px;padding-top:0px">
-                            <canvas id="myTemp"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 ph-container">
-                    <div id="wrapper">
-                        <img class="needle wlevel-0" src="assets/img/gauge-needle.png" alt="">
-                        <canvas id="myPie"></canvas>
-                    </div>
-                </div>
-                <div class="col-md-4 card-container">
-                    <!--Panel-->
-                    <div class="card">
-                        <div class="card-header danger-color darken-4 white-text">
-                            Temperature
-                        </div>
-                        <div class="card-block flex-center">
-                            <h1 class="card-title">30&deg;C</h1>
-                        </div>
-                    </div>
-                    <!--/.Panel-->
-                </div>
-                <div class="col-md-4 card-container">
-                    <!--Panel-->
-                    <div class="card">
-                        <div class="card-header info-color white-text">
-                            Weather
-                        </div>
-                        <div class="card-block flex-center">
-                            <img class="weather-icon" src="assets/img/cloud.svg">
-                        </div>
-                    </div>
-                    <!--/.Panel-->
-                </div>
-            </div>
-        </div>
-    </main>
-    <script src="vendor/js/jquery-3.1.1.min.js"></script>
-    <script src="vendor/js/tether.min.js"></script>
-    <script src="vendor/js/bootstrap.min.js"></script>
-    <script src="vendor/js/prem.mdb.min.js"></script>
-    <script src="vendor/js/Chart.bundle.min.js"></script>
-    <script src="assets/js/aqualytics.js"></script>
-    <script src="assets/js/socket.io.js"></script>
-    <script>
-    //var socket = io("http://192.168.1.110:8080/");
-    var socket = io("http://localhost:8080/");
-    Aqualytics().getData();
-
-    // SideNav init
-    $(".button-collapse").sideNav();
-
-    socket.on("update ph",function(level){
-        console.log(level);
-        Aqualytics.updateMeter(level);
-    })
-    </script>
+<body>
 </body>
-
 </html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="IoT Project">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Untitled</title>
+    <link rel="author" href="humans.txt">
+    <link rel="stylesheet" href="vendor/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/css/font-awesome.min.css">
+    <link rel="stylesheet" href="vendor/css/prem.mdb2.min.css">
+    <link rel="stylesheet" href="vendor/css/prism.min.css">
+    <link rel="stylesheet" href="assets/css/gerald.css">
+    <style>
+    table {
+        padding: 20px;
+    }
+    </style>
+</head>
+
+<body class="fixed-sn mdb-skin">
+    <header>
+        <!-- Sidebar navigation -->
+        <ul id="slide-out" class="side-nav custom-scrollbar">
+            <!-- Logo -->
+            <li>
+                <div class="aqualytics-wrapper waves-light waves-effect waves-light">
+                    <img src="assets/img/aqualytics.jpg" class="app-cover img-fluid flex-center">
+                </div>
+            </li>
+            <!--/. Logo -->
+            <br>
+            <!-- Side navigation links -->
+            <li>
+                <ul class="collapsible collapsible-accordion">
+                    <li><a class="collapsible-header waves-effect arrow-r active"><i class="fa fa-home"></i> Users</i></a>
+                    </li>
+                    <!-- <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-exclamation-circle"></i> Notification</a>
+                    </li> -->
+                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-bug"></i> Reports 
+                    </a></li>
+                </ul>
+            </li>
+        </ul>
+        <!--/. Sidebar navigation -->
+        <!--Navbar-->
+        <nav class="navbar navbar-fixed-top scrolling-navbar double-nav mobile-nofixed">
+            <!-- SideNav slide-out button -->
+            <div class="float-xs-left collapse">
+                <a href="#" data-activates="slide-out" class="button-collapse"><i class="fa fa-bars"></i></a>
+            </div>
+            <!-- Breadcrumb-->
+            <div class="breadcrumb-dn">
+                <p>AquaLytics</p>
+            </div>
+            <ul class="nav navbar-nav float-xs-right">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle waves-effect waves-light" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i><span class="username">Profile</span></a>
+                    <!-- <div class="dropdown-menu dropdown-primary dd-right" aria-labelledby="dropdownMenu1" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                        <a class="dropdown-item waves-effect waves-light" href="#">Action</a>
+                        <a class="dropdown-item waves-effect waves-light" href="#">Another action</a>
+                        <a class="dropdown-item waves-effect waves-light" href="#">Something else here</a>
+                    </div> -->
+                </li>
+            </ul>
+        </nav>
+        <!--/.Navbar-->
+    </header>
+    <main>
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Devices</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="table-users">
+                </tbody>
+            </table>
+        </div>
+        <div class="fixed-action-btn" style="bottom: 10px; right: 10px;">
+            <a class="btn-floating btn-large red">
+                <i class="fa fa-pencil"></i>
+            </a>
+        </div>
+    </main>
+    <!-- Modal Contact -->
+    <div class="modal fade modal-ext" id="modal-contact" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Write to us</h4>
+                </div>
+                <!--Body-->
+                <div class="modal-body">
+                    <p>We like to receive a messages.</p>
+                    <br>
+                    <div class="md-form">
+                        <i class="fa fa-user prefix"></i>
+                        <input type="text" id="form22" class="form-control">
+                        <label for="form42">Your name</label>
+                    </div>
+                    <div class="md-form">
+                        <i class="fa fa-envelope prefix"></i>
+                        <input type="text" id="form32" class="form-control">
+                        <label for="form34">Your email</label>
+                    </div>
+                    <div class="md-form">
+                        <i class="fa fa-tag prefix"></i>
+                        <input type="text" id="form32" class="form-control">
+                        <label for="form34">Subject</label>
+                    </div>
+                    <div class="md-form">
+                        <i class="fa fa-pencil prefix"></i>
+                        <textarea type="text" id="form8" class="md-textarea"></textarea>
+                        <label for="form8">Icon Prefix</label>
+                    </div>
+                    <div class="text-xs-center">
+                        <button class="btn btn-primary">Submit</button>
+                        <div class="call">
+                            <p>Or would you prefer to call? <span class="cf-phone"><i class="fa fa-phone"> +01 234 565 280</i></span></p>
+                        </div>
+                    </div>
+                </div>
+                <!--Footer-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- Button trigger modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Add Device</h4>
+                </div>
+                <!--Body-->
+                <div class="modal-body">
+                    <form id="frmAddDev">
+                        <div class="md-form">
+                            <input name="address" type="text" id="form1" class="form-control">
+                            <label for="form2">Address</label>
+                        </div>
+                        <div class="md-form">
+                            <input name="latitude" type="text" id="form2" class="form-control">
+                            <label for="form2">Lat</label>
+                        </div>
+                        <div class="md-form">
+                            <input name="longitude" type="text" id="form3" class="form-control">
+                            <label for="form2">Lng</label>
+                        </div>
+                    </form>
+                </div>
+                <!--Footer-->
+                <div class="modal-footer">
+                    <button id="saveDev" type="button" class="btn btn-primary btn-sm">Save changes</button>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- /.Live preview-->
+    <!-- Modal -->
+    <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Add User</h4>
+                </div>
+                <!--Body-->
+                <div class="modal-body">
+                    <form id="frmAddUser">
+                        <div class="md-form">
+                            <input name="email" type="text" id="form1" class="form-control">
+                            <label for="form1">Email</label>
+                        </div>
+                        <div class="md-form">
+                            <input name="firstname" type="text" id="form2" class="form-control">
+                            <label for="form2">First Name</label>
+                        </div>
+                        <div class="md-form">
+                            <input name="lastname" type="text" id="form3" class="form-control">
+                            <label for="form3">Last Name</label>
+                        </div>
+                    </form>
+                </div>
+                <!--Footer-->
+                <div class="modal-footer">
+                    <button id="saveUser" type="button" class="btn btn-primary btn-sm">Save changes</button>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <script src="vendor/js/jquery-3.1.1.min.js"></script>
+    <script src="vendor/js/tether.min.js"></script>
+    <script src="vendor/js/bootstrap.min.js"></script>
+    <script src="vendor/js/mdb.min.js"></script>
+    <script src="assets/js/aqualytics.js"></script>
+    <script src="assets/js/socket.io.js"></script>
+    <script>
+    $(".button-collapse").sideNav();
+    $(document).ready(function() {
+        var str = parseURLParams(window.location.href);
+        console.log(str);
+        $.ajax({
+            url: "/aqualytics/backend/api/v1/user/list",
+            type: "GET",
+            success: function(data) {
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {
+                    $("#table-users").append(`<tr>
+                        <td class="user-id" scope="row">${data[i].id}</td>
+                        <td class="user-firstname">${data[i].firstname}</td>
+                        <td class="user-lastname">${data[i].lastname}</td>
+                        <td class="user-email">${data[i].email}</td>
+                        <td class="device-num">${data[i].devices}</td>
+                        <td>
+                            <a class="teal-text"><i class="fa fa-eye"></i></a>
+                            <a id="addDevice" data-id="${data[i].id}" class="teal-text"><i class="fa fa-plus"></i></a>
+                            <a class="teal-text"><i class="fa fa-pencil"></i></a>
+                            <a class="red-text"><i class="fa fa-times"></i></a>
+                        </td>
+                    </tr>`);
+                }
+            }
+        })
+
+        $(".fixed-action-btn").click(function() {
+            $("#addUser").modal();
+        })
+
+        $(document).on('click', '#addDevice', function() {
+            window.user_id = $(this).attr("data-id");
+            $("#myModal").modal();
+        });
+
+        $("#saveDev").click(function(){
+            $("#frmAddDev").trigger("submit");
+        })
+
+        $("#saveUser").click(function(){
+            $("#frmAddUser").trigger("submit");
+        })
+
+        $("#frmAddDev").submit(function(e){
+            e.preventDefault();
+            $.ajax({
+                url:"/aqualytics/backend/api/v1/device",
+                type:"POST",
+                data:$(this).serialize() + '&user_id=' + user_id,
+                success:function(data){
+                    if(data!=0){
+                        $('#myModal').modal('hide')
+                        var a = $("tr td.user-id:contains('"+user_id+"')");
+                        var b = a.parent("tr").find("td.device-num")
+                        var newvalue = parseInt(b.text()) + 1;
+                        b.html(newvalue)
+                        toastr["info"]("device has been added.");
+                    }
+                }
+            })
+        })
+
+        $("#frmAddUser").submit(function(e){
+            e.preventDefault();
+            $.ajax({
+                url:"/aqualytics/backend/api/v1/user",
+                type:"POST",
+                data:$(this).serialize(),
+                success:function(data){
+                    if(data!=0){
+                        $('#addUser').modal('hide')
+                        toastr["info"]("User has been added.");
+                        $("#table-users").prepend(`<tr>
+                            <td class="user-id" scope="row">${data.id}</td>
+                            <td class="user-firstname">${data.firstname}</td>
+                            <td class="user-lastname">${data.lastname}</td>
+                            <td class="user-email">${data.email}</td>
+                            <td class="device-num">${data.devices}</td>
+                            <td>
+                                <a id="addDevice" data-id="${data.id}" class="teal-text"><i class="fa fa-plus"></i></a>
+                                <a class="teal-text"><i class="fa fa-pencil"></i></a>
+                                <a class="red-text"><i class="fa fa-times"></i></a>
+                            </td>
+                        </tr>`);
+                    }
+                }
+            })
+        })
+    })
+
+    function parseURLParams(url) {
+        var queryStart = url.indexOf("?") + 1,
+            queryEnd   = url.indexOf("#") + 1 || url.length + 1,
+            query = url.slice(queryStart, queryEnd - 1),
+            pairs = query.replace(/\+/g, " ").split("&"),
+            parms = {}, i, n, v, nv;
+
+        if (query === url || query === "") {
+            return;
+        }
+
+        for (i = 0; i < pairs.length; i++) {
+            nv = pairs[i].split("=");
+            n = decodeURIComponent(nv[0]);
+            v = decodeURIComponent(nv[1]);
+
+            if (!parms.hasOwnProperty(n)) {
+                parms[n] = [];
+            }
+
+            parms[n].push(nv.length === 2 ? v : null);
+        }
+        return parms;
+    }
+    </script>
+</body>
+
+</html>

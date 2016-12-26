@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MD4 - Card</title>
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/mdb.min.css">
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/css/add-on.css">
+</head>
+
+<body class="fixed-sn blue-skin">
+    <header>
+        <!-- Sidebar navigation -->
+        <ul id="slide-out" class="side-nav fixed">
+            <!-- Logo -->
+            <li>
+                <div class="logo-wrapper waves-light waves-effect waves-light">
+                    <a href="#"><img src="http://mdbootstrap.com/wp-content/uploads/2015/12/mdb-white2.png" class="img-fluid flex-center"></a>
+                </div>
+            </li>
+            <!--/. Logo -->
+            <!-- Side navigation links -->
+            <li>
+                <ul class="collapsible collapsible-accordion">
+                    <li><a href="dashboard.html" class="collapsible-header waves-effect arrow-r"><i class="fa fa-dashboard"></i> Dashboard</a>
+                    </li>
+                    <li><a href="#" class="collapsible-header waves-effect arrow-r active"><i class="fa fa-user"></i> Users</a>
+                    </li>
+                    <li><a href="logs.html" class="collapsible-header waves-effect arrow-r"><i class="fa fa-history"></i> Logs</a>
+                    </li>
+                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-book"></i> Reports</a>
+                    </li>
+                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-wrench"></i> Settings</a>
+                    </li>
+                </ul>
+            </li>
+            <!--/. Side navigation links -->
+        </ul>
+        <!--/. Sidebar navigation -->
+        <!--Navbar-->
+        <nav class="navbar navbar-fixed-top scrolling-navbar double-nav">
+            <!-- SideNav slide-out button -->
+            <div class="float-xs-left">
+                <a href="#" data-activates="slide-out" class="button-collapse"><i class="fa fa-bars"></i></a>
+            </div>
+            <!-- Breadcrumb-->
+            <div class="breadcrumb-dn">
+                <p>Hydroid</p>
+            </div>
+            <ul class="nav navbar-nav float-xs-right">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle waves-effect waves-light" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> Profile</a>
+                    <div class="dropdown-menu dropdown-primary dd-right" aria-labelledby="dropdownMenu1" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                        <a class="dropdown-item logout waves-effect waves-light" href="#">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <!--/.Navbar-->
+    </header>
+    <main>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Username</th>
+                    <th>Devices</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="table-users">
+            </tbody>
+        </table>
+    </main>
+    <div class="fixed-action-btn" style="bottom: 15px; right: 15px;">
+        <a class="btn-floating btn-large green">
+            <i class="fa fa-user-plus"></i>
+        </a>
+    </div>
+    <!-- modals -->
+    <div class="modal" id="myModal" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h4 class="modal-title">Delete user?</h4>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn-flat blue-text">Yes</a>
+                    <a class="btn-flat blue-text">No</a>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- end modals -->
+    <!-- Modal -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Add Device</h4>
+                </div>
+                <!--Body-->
+                <div class="modal-body">
+                    <form id="frmAddDev">
+                        <div class="md-form">
+                            <input name="address" type="text" id="form1" class="form-control">
+                            <label for="form2">Address</label>
+                        </div>
+                        <div class="md-form">
+                            <input name="latitude" type="text" id="form2" class="form-control">
+                            <label for="form2">Lat</label>
+                        </div>
+                        <div class="md-form">
+                            <input name="longitude" type="text" id="form3" class="form-control">
+                            <label for="form2">Lng</label>
+                        </div>
+                    </form>
+                </div>
+                <!--Footer-->
+                <div class="modal-footer">
+                    <button id="saveDev" type="button" class="btn btn-primary btn-sm">Save changes</button>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- /.Live preview-->
+    <!-- Modal -->
+    <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Add User</h4>
+                </div>
+                <!--Body-->
+                <div class="modal-body">
+                    <form id="frmAddUser">
+                        <div class="md-form">
+                            <input name="email" type="text" id="form1" class="form-control">
+                            <label for="form1">Email</label>
+                        </div>
+                        <div class="md-form">
+                            <input name="firstname" type="text" id="form2" class="form-control">
+                            <label for="form2">First Name</label>
+                        </div>
+                        <div class="md-form">
+                            <input name="lastname" type="text" id="form3" class="form-control">
+                            <label for="form3">Last Name</label>
+                        </div>
+                    </form>
+                </div>
+                <!--Footer-->
+                <div class="modal-footer">
+                    <button id="saveUser" type="button" class="btn btn-primary btn-sm">Save changes</button>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <script src="../assets/js/jquery-3.1.1.min.js"></script>
+    <script src="../assets/js/socket.io.js"></script>
+    <script src="../assets/js/tether.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/mdb.min.js"></script>
+    <script src="../assets/js/aqualytics.js"></script>
+    <script>
+    $('.button-collapse').sideNav();
+    var aqua = Aqualytics.init();
+    aqua.getUsersInfo();
+
+    $(".fixed-action-btn").click(function() {
+        $("#addUser").modal();
+    })
+
+    $(document).on('click', '#addDevice', function() {
+        window.user_id = $(this).attr("data-id");
+        $("#addModal").modal();
+    });
+
+    $("#frmAddUser").submit(function(e) {
+        e.preventDefault();
+        aqua.addUser($(this).serialize());
+    })
+
+    $("#frmAddDev").submit(function(e) {
+        e.preventDefault();
+        aqua.addDevice($(this).serialize());
+    })
+
+    $("#saveDev").click(function() {
+        $("#frmAddDev").trigger("submit");
+    })
+
+    $("#saveUser").click(function() {
+        $("#frmAddUser").trigger("submit");
+    })
+    </script>
+</body>
+
+</html>

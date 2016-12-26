@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="IoT Project">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Untitled</title>
+    <link rel="author" href="humans.txt">
+    <link rel="stylesheet" href="vendor/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/css/font-awesome.min.css">
+    <link rel="stylesheet" href="vendor/css/prem.mdb2.min.css">
+    <link rel="stylesheet" href="vendor/css/prism.min.css">
+    <link rel="stylesheet" href="assets/css/gerald.css">
+    <script>
+        if(localStorage.getItem("userdata")==null||localStorage.getItem("userdata")==undefined){
+            location.href="./login";
+        }
+    </script>
+</head>
+
+<body class="fixed-sn mdb-skin">
+    <header>
+        <!-- Sidebar navigation -->
+        <ul id="slide-out" class="side-nav custom-scrollbar">
+            <!-- Logo -->
+            <li>
+                <div class="aqualytics-wrapper waves-light waves-effect waves-light">
+                    <img src="assets/img/aqualytics.jpg" class="app-cover img-fluid flex-center">
+                </div>
+            </li>
+            <!--/. Logo -->
+            <br>
+            <!-- Side navigation links -->
+            <li>
+                <ul class="collapsible collapsible-accordion">
+                    <li><a href="./" class="collapsible-header waves-effect arrow-r"><i class="fa fa-home"></i> Dashboard</i></a>
+                    </li>
+                    <!-- <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-exclamation-circle"></i> Notification</a>
+                    </li> -->
+                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-wrench"></i> Setting</a>
+                    </li>
+                    <li><a class="collapsible-header waves-effect arrow-r active"><i class="fa fa-bug"></i> Logs
+                    </a></li>
+                </ul>
+            </li>
+        </ul>
+        <!--/. Sidebar navigation -->
+        <!--Navbar-->
+        <nav class="navbar navbar-fixed-top scrolling-navbar double-nav mobile-nofixed">
+            <!-- SideNav slide-out button -->
+            <div class="float-xs-left collapse">
+                <a href="#" data-activates="slide-out" class="button-collapse"><i class="fa fa-bars"></i></a>
+            </div>
+            <!-- Breadcrumb-->
+            <div class="breadcrumb-dn">
+                <p>AquaLytics</p>
+            </div>
+            <ul class="nav navbar-nav float-xs-right">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle waves-effect waves-light" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i><span class="username">Profile</span></a>
+                    <!-- <div class="dropdown-menu dropdown-primary dd-right" aria-labelledby="dropdownMenu1" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                        <a class="dropdown-item waves-effect waves-light" href="#">Action</a>
+                        <a class="dropdown-item waves-effect waves-light" href="#">Another action</a>
+                        <a class="dropdown-item waves-effect waves-light" href="#">Something else here</a>
+                    </div> -->
+                </li>
+            </ul>
+        </nav>
+        <!--/.Navbar-->
+    </header>
+    <main>
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Ph Level</th>
+                        <th>Temperature</th>
+                    </tr>
+                </thead>
+                <tbody id="table-users">
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <script src="vendor/js/jquery-3.1.1.min.js"></script>
+    <script src="vendor/js/tether.min.js"></script>
+    <script src="vendor/js/bootstrap.min.js"></script>
+    <script src="vendor/js/mdb.min.js"></script>
+    <script src="vendor/js/Chart.bundle.min.js"></script>
+    <script src="assets/js/aqualytics.js"></script>
+    <script src="assets/js/socket.io.js"></script>
+    <script>
+    var device_id = 2;
+    $(".button-collapse").sideNav();
+    $(document).ready(function(){
+        if (localStorage.getItem("userdata") != null || localStorage.getItem("userdata") != undefined) {
+            var user = JSON.parse(localStorage.getItem("userdata"));
+            //device_id = user.devices[0].device_id || 0;
+            $("span.username").html(user.firstname + " " + user.lastname);
+        }
+        $.ajax({
+            url:"/aqualytics/backend/api/v1/device/log/"+device_id+"?page=1&offset=10",
+            type:"GET",
+            success:function(data){
+                data = JSON.parse(data);
+                for (var i = 0; i < data.length; i++) {
+                    $("#table-users").append(`<tr>
+                        <td class="user-id" scope="row">${data[i].date}</td>
+                        <td class="user-firstname">${data[i].time}</td>
+                        <td class="user-lastname">${data[i].ph_level}</td>
+                        <td class="user-email">${data[i].temperature}</td>
+                    </tr>`);
+                }
+            }
+
+        })
+    })
+    </script>
+</body>
+
+</html>

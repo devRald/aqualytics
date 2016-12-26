@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="IoT Project">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Untitled</title>
+    <link rel="author" href="humans.txt">
+    <link rel="stylesheet" href="vendor/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/css/font-awesome.min.css">
+    <link rel="stylesheet" href="vendor/css/prem.mdb2.min.css">
+    <link rel="stylesheet" href="vendor/css/prism.min.css">
+    <link rel="stylesheet" href="assets/css/gerald.css">
+    <script>
+        /*if(localStorage.getItem("userdata")==null||localStorage.getItem("userdata")==undefined){
+            location.href="./login";
+        }*/
+    </script>
+</head>
+
+<body class="fixed-sn mdb-skin">
+    <header>
+        <!-- Sidebar navigation -->
+        <ul id="slide-out" class="side-nav custom-scrollbar">
+            <!-- Logo -->
+            <li>
+                <div class="aqualytics-wrapper waves-light waves-effect waves-light">
+                    <img src="assets/img/aqualytics.jpg" class="app-cover img-fluid flex-center">
+                </div>
+            </li>
+            <!--/. Logo -->
+            <br>
+            <!-- Side navigation links -->
+            <li>
+                <ul class="collapsible collapsible-accordion">
+                    <li><a class="collapsible-header waves-effect arrow-r active"><i class="fa fa-home"></i> Dashboard</i></a>
+                    </li>
+                    <!-- <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-exclamation-circle"></i> Notification</a>
+                    </li> -->
+                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-wrench"></i> Setting</a>
+                    </li>
+                    <li><a href="./logs" class="collapsible-header waves-effect arrow-r"><i class="fa fa-bug"></i> Logs
+                    </a></li>
+                </ul>
+            </li>
+        </ul>
+        <!--/. Sidebar navigation -->
+        <!--Navbar-->
+        <nav class="navbar navbar-fixed-top scrolling-navbar double-nav mobile-nofixed">
+            <!-- SideNav slide-out button -->
+            <div class="float-xs-left collapse">
+                <a href="#" data-activates="slide-out" class="button-collapse"><i class="fa fa-bars"></i></a>
+            </div>
+            <!-- Breadcrumb-->
+            <div class="breadcrumb-dn">
+                <p>AquaLytics</p>
+            </div>
+            <ul class="nav navbar-nav float-xs-right">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle waves-effect waves-light" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i><span class="username">Profile</span></a>
+                    <!-- <div class="dropdown-menu dropdown-primary dd-right" aria-labelledby="dropdownMenu1" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                        <a class="dropdown-item waves-effect waves-light" href="#">Action</a>
+                        <a class="dropdown-item waves-effect waves-light" href="#">Another action</a>
+                        <a class="dropdown-item waves-effect waves-light" href="#">Something else here</a>
+                    </div> -->
+                </li>
+            </ul>
+        </nav>
+        <!--/.Navbar-->
+    </header>
+    <main>
+        <!--Dropdown primary-->
+        <div class="dropdown" style="margin-left: 10px;">
+            <!--Trigger-->
+            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pick Device</button>
+            <!--Menu-->
+            <div class="dropdown-menu dropdown-primary device-menu" aria-labelledby="dropdownMenu1" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+            </div>
+        </div>
+        <!--/Dropdown primary-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <h3 class="card-header info-color-dark white-text">pH Level</h3>
+                        <div class="card-block" style="padding-left:0px;padding-right:15px;padding-top:0px">
+                            <canvas id="myChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <h3 class="card-header danger-color-dark white-text">Temperature</h3>
+                        <div class="card-block" style="padding-left:0px;padding-right:15px;padding-top:0px">
+                            <canvas id="myTemp"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 ph-container">
+                    <div id="wrapper">
+                        <img class="needle wlevel-0" src="assets/img/gauge-needle.png" alt="">
+                        <canvas id="myPie"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-8 card-container">
+                    <!--Panel-->
+                    <div class="card">
+                        <div class="card-header danger-color darken-4 white-text">
+                            Temperature
+                        </div>
+                        <div class="card-block flex-center">
+                            <h1 class="card-title"><span class="deg">25</span>&deg;C</h1>
+                        </div>
+                    </div>
+                    <!--/.Panel-->
+                </div>
+                <!-- <div class="col-md-4 card-container">
+                    Panel
+                    <div class="card">
+                        <div class="card-header info-color white-text">
+                            Weather
+                        </div>
+                        <div class="card-block flex-center">
+                            <img class="weather-icon" src="assets/img/cloud.svg">
+                        </div>
+                    </div>
+                    /.Panel
+                </div> -->
+            </div>
+        </div>
+    </main>
+    <script src="vendor/js/jquery-3.1.1.min.js"></script>
+    <script src="vendor/js/tether.min.js"></script>
+    <script src="vendor/js/bootstrap.min.js"></script>
+    <script src="vendor/js/mdb.min.js"></script>
+    <script src="vendor/js/Chart.bundle.min.js"></script>
+    <script src="assets/js/aqualytics.js"></script>
+    <script src="assets/js/socket.io.js"></script>
+    <script>
+    var device_id = 2;
+    $(document).ready(function() {
+        if (localStorage.getItem("userdata") != null || localStorage.getItem("userdata") != undefined) {
+            var user = JSON.parse(localStorage.getItem("userdata"));
+            device_id = user.devices[0].device_id || 0;
+            $("span.username").html(user.firstname + " " + user.lastname);
+            for (var i = 0; i < user.devices.length; i++) {
+                console.log("asd")
+                $('.device-menu').append(`<a class="dropdown-item" data-id="${user.devices[i].device_id}">${user.devices[i].device_id}</a>`);
+            }
+        }
+
+        $(".dropdown-item").click(function() {
+            device_id = $(this).attr("data-id");
+        })
+    })
+
+    var socket = io(base_url + ":8080/");
+    //var socket = io("http://localhost:8080/");
+    Aqualytics().getData();
+
+    // SideNav init
+    $(".button-collapse").sideNav();
+
+    socket.on("update ph", function(level) {
+        console.log(level)
+        if (level.device == device_id) {
+            console.log(level);
+            Aqualytics.updateMeter(level.ph);
+            Aqualytics.updateTemperature(level.temperature);
+        }
+    })
+    </script>
+</body>
+
+</html>

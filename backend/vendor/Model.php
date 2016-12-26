@@ -40,19 +40,25 @@
 			return $this;
 		}
 
+		function group_by($field){
+			$this->sql .= "GROUP BY $field";
+
+			return $this;
+		}
+
 		function custom_where($where){
 			$this->sql .= "$where ";
 		}
 
 		function limit($page,$offset){
-			$page = $page - 1;
+			$page = $offset * ($page - 1);
 			$this->sql .= "LIMIT $page,$offset ";
 			return $this;
 		}
 
 		function order_by($field,$order = "ASC"){
 			if(gettype($field)=="string"){
-				$this->sql .= "ORDER BY $f $order ";	
+				$this->sql .= " ORDER BY $field $order ";	
 				return $this;
 			}else{
 				foreach ($field as $value) {
@@ -92,7 +98,7 @@
 
 			$result = mysqli_query($this->conn,$str);
 			if(mysqli_affected_rows($this->conn) > 0){
-				echo 'naupdate';
+				return true;
 			}
 		}
 
@@ -105,6 +111,7 @@
 		}
 
 		function get($table="",$fields="",$where="",$order="",$limit=""){
+			//echo $this->sql;
 			if(!empty($table)){
 				$this->sql = "SELECT * FROM $table";
 			}
@@ -117,6 +124,15 @@
 			}else{
 				return null;
 			}
+		}
+
+		function get_first_row($table="",$fields="",$where="",$order="",$limit=""){
+			return $this->get($table,$fields,$where,$order,$limit)[0];
+		}
+
+		function get_count(){
+			$result = $this->conn->query($this->sql);
+			return $result->num_rows;
 		}
 
 		function print(){

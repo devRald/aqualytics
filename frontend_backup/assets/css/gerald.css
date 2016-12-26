@@ -12,16 +12,16 @@
 		display: hidden;
 	}
 	.fixed-sn main, .hidden-sn main{
-		padding-top: 4.5em;
+		padding-top: 4em;
 	}
 	.weather-icon{
 		width:55px;
 	}
 	.card-container{
-		margin-top: 40px;
+		margin-top: 0px;
 	}
 	.ph-container{
-		margin-top: 20px;
+		margin-top: 0px;
 	}
 }
 @media only screen and (max-width: 992px){
@@ -42,7 +42,6 @@
 }
 @media only screen and (min-width: 0px){
 }
-
 .side-nav,
 .navbar{
 	background:#3f729b !important;

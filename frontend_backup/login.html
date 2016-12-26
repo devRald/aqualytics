@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Untitled</title>
+    <link rel="author" href="humans.txt">
+    <link rel="stylesheet" href="vendor/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/css/font-awesome.min.css">
+    <link rel="stylesheet" href="vendor/css/prem.mdb2.min.css">
+    <link rel="stylesheet" href="vendor/css/prism.min.css">
+    <link rel="stylesheet" href="assets/css/gerald.css">
+    <link rel="stylesheet" href="assets/css/login.css">
+</head>
+
+<body>
+		<div class="container">
+        <div class="card card-container">
+            <img id="profile-img" class="profile-img-card" src="assets/img/aqualytics.png" />
+            <p id="profile-name" class="profile-name-card"></p>
+            <form class="form-signin">
+                <span id="reauth-email" class="reauth-email"></span>
+                <input type="text" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign in</button>
+            </form><!-- /form -->
+            <a href="#" class="forgot-password">
+                Forgot the password?
+            </a>
+        </div><!-- /card-container -->
+    </div><!-- /container -->
+
+    <script src="vendor/js/jquery-3.1.1.min.js"></script>
+    <script src="vendor/js/tether.min.js"></script>
+    <script src="vendor/js/bootstrap.min.js"></script>
+    <script src="vendor/js/prem.mdb.min.js"></script>
+    <script>
+    	$(document).ready(function(){
+    		$(".form-signin").submit(function(e){
+    			e.preventDefault();
+    			$.ajax({
+    				url:"/aqualytics/backend/api/v1/user/login",
+    				type:"POST",
+    				data:$(this).serialize(),
+    				success:function(data){
+    					console.log(data)
+    					if(data!=0){
+    						localStorage.setItem("userdata",JSON.stringify(data));
+                            if(data.user_type=="user"){
+                                location.href = base_url+"/aqualytics/frontend/";
+                            }   
+                            if(data.user_type=="admin"){
+                                location.href = base_url+"/aqualytics/frontend/users";  
+                            }				
+                        }
+    				}
+    			})
+    		})
+    	})
+    </script>
+</body>
+
+</html>
