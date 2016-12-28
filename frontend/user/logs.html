@@ -69,6 +69,11 @@
         <!--/.Navbar-->
     </header>
     <main>
+        <progress class="progress" value="25" max="100" hidden>
+            <div class="progress">
+                <span class="progress-bar" style="width: 25%;">25%</span>
+            </div>
+        </progress>
         <table class="table">
             <thead>
                 <tr>
@@ -129,6 +134,7 @@
     <script src="../assets/js/user-alert.js"></script>
     <script>
     $('.button-collapse').sideNav();
+    Aqualytics.init();
     var page = 1;
     $(document).ready(function() {
         if (page == 1) {
@@ -185,7 +191,7 @@
             });
         })
 
-        
+
 
         $(document).on('click', 'ul.pagination li.page-number', function() {
             $(this).parent().find("li.active").removeClass("active");
@@ -215,6 +221,8 @@
                 }
             });
         })
+
+
     })
     </script>
 </body>

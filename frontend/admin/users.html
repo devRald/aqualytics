@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MD4 - Card</title>
+    <title>AquaMetriX - Users</title>
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/mdb.min.css">
     <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
@@ -30,6 +30,8 @@
                     </li>
                     <li><a href="#" class="collapsible-header waves-effect arrow-r active"><i class="fa fa-user"></i> Users</a>
                     </li>
+                    <li><a href="maps.html" class="collapsible-header waves-effect arrow-r"><i class="fa fa-map-o"></i> Maps</a>
+                    </li>
                     <li><a href="logs.html" class="collapsible-header waves-effect arrow-r"><i class="fa fa-history"></i> Logs</a>
                     </li>
                     <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-book"></i> Reports</a>
@@ -49,7 +51,7 @@
             </div>
             <!-- Breadcrumb-->
             <div class="breadcrumb-dn">
-                <p>Hydroid</p>
+                <p>AquaMetriX</p>
             </div>
             <ul class="nav navbar-nav float-xs-right">
                 <li class="nav-item dropdown">
@@ -63,6 +65,9 @@
         <!--/.Navbar-->
     </header>
     <main>
+    		<div class="progress">
+            <div class="indeterminate" style="width: 70%"></div>
+        </div>
         <table class="table">
             <thead>
                 <tr>
@@ -101,7 +106,7 @@
     </div>
     <!-- end modals -->
     <!-- Modal -->
-    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <!--Content-->
             <div class="modal-content">
@@ -114,20 +119,25 @@
                 </div>
                 <!--Body-->
                 <div class="modal-body">
-                    <form id="frmAddDev">
+                    <form id="frmAddDev" class="row container">
                         <div class="md-form">
                             <input name="address" type="text" id="form1" class="form-control">
                             <label for="form2">Address</label>
                         </div>
-                        <div class="md-form">
-                            <input name="latitude" type="text" id="form2" class="form-control">
-                            <label for="form2">Lat</label>
+                        <div class="col-sm-6">
+                            <div class="md-form frmMap">
+                                <input name="latitude" type="text" id="form2" class="form-control">
+                                <label for="form2">Lat</label>
+                            </div>
                         </div>
-                        <div class="md-form">
-                            <input name="longitude" type="text" id="form3" class="form-control">
-                            <label for="form2">Lng</label>
+                        <div class="col-sm-6">
+                            <div class="md-form frmMap">
+                                <input name="longitude" type="text" id="form3" class="form-control">
+                                <label for="form2">Lng</label>
+                            </div>
                         </div>
                     </form>
+                    <div id="map-container" class="z-depth-1" style="height: 300px"></div>
                 </div>
                 <!--Footer-->
                 <div class="modal-footer">
@@ -139,7 +149,7 @@
     </div>
     <!-- /.Live preview-->
     <!-- Modal -->
-    <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal" id="addUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <!--Content-->
             <div class="modal-content">
@@ -148,7 +158,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel">Add User</h4>
+                    <h4 class="modal-title" id="UserModalLabel">Add User</h4>
                 </div>
                 <!--Body-->
                 <div class="modal-body">
@@ -175,7 +185,9 @@
             <!--/.Content-->
         </div>
     </div>
+    <script src="../assets/js/connect.js"></script>
     <script src="../assets/js/jquery-3.1.1.min.js"></script>
+    <script src="http://maps.google.com/maps/api/js?key=AIzaSyDGJVa3emyIJKYX8PKfCwRbratKkcmJCy8"></script>
     <script src="../assets/js/socket.io.js"></script>
     <script src="../assets/js/tether.min.js"></script>
     <script src="../assets/js/bootstrap.min.js"></script>
@@ -190,15 +202,14 @@
         $("#addUser").modal();
     })
 
+    $("#addModal").on('shown.bs.modal', function() {
+        init_map(14.599320, 120.984097);
+    })
+
     $(document).on('click', '#addDevice', function() {
         window.user_id = $(this).attr("data-id");
         $("#addModal").modal();
     });
-
-    $("#frmAddUser").submit(function(e) {
-        e.preventDefault();
-        aqua.addUser($(this).serialize());
-    })
 
     $("#frmAddDev").submit(function(e) {
         e.preventDefault();
@@ -210,8 +221,95 @@
     })
 
     $("#saveUser").click(function() {
-        $("#frmAddUser").trigger("submit");
+        if ($("#frmEditUser").length > 0) {
+            $("#frmEditUser").trigger('submit');
+        } else {
+            $("#frmAddUser").trigger('submit');
+        }
     })
+
+
+    $(document).on('click', '#editUser', function() {
+        window.row = $(this);
+        init_addUser("Edit User", "edit", $(this).attr("data-id"));
+    });
+
+    $(".fixed-action-btn").click(function() {
+        init_addUser("Add User", "add");
+    })
+
+    function init_addUser(title, type, id) {
+        $("#UserModalLabel").text(title);
+        if (type == "edit") {
+            var temp = window.users[id];
+            window.user_id = temp.id;
+
+            $("#frmAddUser label[for=form1]").addClass("active");
+            $("#frmAddUser label[for=form2]").addClass("active");
+            $("#frmAddUser label[for=form3]").addClass("active");
+
+            $("#frmAddUser input[name=email]").val(temp.email);
+            $("#frmAddUser input[name=firstname]").val(temp.firstname);
+            $("#frmAddUser input[name=lastname]").val(temp.lastname);
+
+            $("form#frmAddUser").attr("id", "frmEditUser");
+        } else {
+            $("form#frmEditUser").attr("id", "frmAddUser");
+
+            $("#frmAddUser label[for=form1]").removeClass("active");
+            $("#frmAddUser label[for=form2]").removeClass("active");
+            $("#frmAddUser label[for=form3]").removeClass("active");
+
+            $("#frmAddUser input[name=email]").val("");
+            $("#frmAddUser input[name=firstname]").val("");
+            $("#frmAddUser input[name=lastname]").val("");
+            
+        }
+
+        $("#addUser").modal();
+    }
+
+    $(document).on("submit", "#frmAddUser", function(e) {
+        e.preventDefault();
+        aqua.addUser($(this).serialize());
+        $('#addUser').modal('hide')
+    })
+
+    $(document).on("submit", "#frmEditUser", function(e) {
+        e.preventDefault();
+        aqua.editUser($(this).serialize(),window.row);
+        $('#addUser').modal('hide')
+    })
+
+    function init_map(lat, lng) {
+
+        var var_location = new google.maps.LatLng(lat, lng);
+
+        var var_mapoptions = {
+            center: var_location,
+            zoom: 10
+        };
+
+        var var_marker = new google.maps.Marker({
+            position: var_location,
+            map: var_map,
+            title: "New York"
+        });
+
+        var var_map = new google.maps.Map(document.getElementById("map-container"),
+            var_mapoptions);
+
+        var_map.addListener('click', function(e) {
+            $(".frmMap>label").addClass("active");
+            $("input[name=latitude]").val(e.latLng.lat())
+            $("input[name=longitude]").val(e.latLng.lng())
+
+            var_marker.setPosition(e.latLng)
+
+        });
+
+        var_marker.setMap(var_map);
+    }
     </script>
 </body>
 

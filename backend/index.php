@@ -40,7 +40,16 @@
 			$api = new Water_API_Controller();
 			$api->update_notification($request[5]);
 		}
-	}	
+	}
+
+	//update user details
+	if(preg_match("/^\/api\/v1\/user\/update\/\d+$/", $_SERVER['PATH_INFO'])){
+		if($method=="POST"){
+			load("Water_API_Controller");
+			$api = new Water_API_Controller();
+			$api->update_user($request[5]);
+		}
+	}
 
 	//user login
 	if(preg_match("/^\/api\/v1\/user\/login$/", $_SERVER['PATH_INFO'])){

@@ -57,6 +57,15 @@
 			}	
 		}
 
+		function update_user($id){
+			$data = parent::update(TBL_USER,array("email"=>$_POST["email"],"firstname"=>$_POST["firstname"],"lastname"=>$_POST["lastname"]),"id=$id");
+			if($data){
+				return $this->get_user($id);
+			}else{
+				return false;
+			}	
+		}
+
 		/* end update models */
 
 		/* get models */

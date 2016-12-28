@@ -21,8 +21,8 @@ Aqualytics = {
             type: "GET",
             dataType: "JSON",
             success: function(result) {
-                if(result.results!=null)
-                   callback(result.results, result.max_page)
+                if (result.results != null)
+                    callback(result.results, result.max_page)
             }
         })
     },
@@ -275,6 +275,23 @@ Aqualytics = {
             }
         })
     },
+    editUser: function(params, element) {
+        $.ajax({
+            url: host + "/aqualytics/backend/api/v1/user/update/" + user_id,
+            type: "POST",
+            data: params,
+            success: function(data) {
+                if (data == 0) {
+                    toastr["info"]("There is no changes made.");
+                } else {
+                    element.parent("td").parent("tr").find("td.user-email").text(data.email);
+                    element.parent("td").parent("tr").find("td.user-firstname").text(data.firstname);
+                    element.parent("td").parent("tr").find("td.user-lastname").text(data.lastname);
+                    toastr["info"]("User info has been updated.");
+                }
+            }
+        })
+    },
     addDevice: function(params) {
         $.ajax({
             url: "/aqualytics/backend/api/v1/device",
@@ -355,6 +372,7 @@ Aqualytics = {
         }
     },
     getUsersInfo: function() {
+        $("div.progress").show();
         $.ajax({
             url: "/aqualytics/backend/api/v1/user/list",
             type: "GET",
@@ -370,11 +388,12 @@ Aqualytics = {
                         <td>
                             <a class="blue-text"><i class="fa fa-eye"></i></a>
                             <a id="addDevice" data-id="${data[i].id}" class="green-text"><i class="fa fa-plus"></i></a>
-                            <a class="teal-text"><i class="fa fa-pencil"></i></a>
+                            <a id="editUser" data-id="${i}" class="teal-text"><i class="fa fa-pencil"></i></a>
                             <a class="red-text"><i class="fa fa-times"></i></a>
                         </td>
                     </tr>`);
                 }
+                $("div.progress").hide();
             }
         })
     },
@@ -414,11 +433,11 @@ $("a.logout").click(function() {
     Aqualytics.userLogout();
 })
 
-$(document).on("click",".modal-card",function(e){
+$(document).on("click", ".modal-card", function(e) {
     $(this).remove();
 })
 
-$(document).on("click",".card-notif",function(e){
+$(document).on("click", ".card-notif", function(e) {
     e.stopPropagation();
 })
 
@@ -444,9 +463,9 @@ $(document).on("click", ".pick-list", function() {
 
 $$.statusChange({
     onConnect: function() {
-        Aqualytics.connectionNotif("success","Connected!");
+        Aqualytics.connectionNotif("success", "Connected!");
     },
     onDisconnect: function() {
-        Aqualytics.connectionNotif("error","Disconnected!");
+        Aqualytics.connectionNotif("error", "Disconnected!");
     }
 })

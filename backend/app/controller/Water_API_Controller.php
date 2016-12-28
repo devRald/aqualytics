@@ -57,6 +57,16 @@
 			}
 		}
 
+		function update_user($id){
+			$data = $this->water->update_user($id);
+			if($data!=null){
+				header("Content-Type:application/json");
+				echo json_encode($data);
+			}else{
+				echo 0;
+			}
+		}
+
 		/* end update functions */
 
 		/* get functions */

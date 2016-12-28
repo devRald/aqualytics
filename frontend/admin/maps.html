@@ -5,17 +5,12 @@
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AquaMetrix - Dashboard</title>
+    <title>AquaMetriX - Maps</title>
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/mdb.min.css">
     <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/add-on.css">
-    <link rel="stylesheet" href="../assets/css/ph.css">
-    <style type="text/css">
-    main {
-        padding-top: 70px !important;
-    }
-    </style>
+    <link rel="stylesheet" href="../assets/css/maps.css">
 </head>
 
 <body class="fixed-sn blue-skin">
@@ -32,11 +27,11 @@
             <!-- Side navigation links -->
             <li>
                 <ul class="collapsible collapsible-accordion">
-                    <li><a href="#" class="collapsible-header waves-effect arrow-r active"><i class="fa fa-dashboard"></i> Dashboard</a>
+                    <li><a href="dashboard.html" class="collapsible-header waves-effect arrow-r"><i class="fa fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li><a href="users.html" class="collapsible-header waves-effect arrow-r"><i class="fa fa-user"></i> Users</a>
                     </li>
-                    <li><a href="maps.html" class="collapsible-header waves-effect arrow-r"><i class="fa fa-map-o"></i> Maps</a>
+                    <li><a href="#" class="collapsible-header waves-effect arrow-r active"><i class="fa fa-map-o"></i> Maps</a>
                     </li>
                     <li><a href="logs.html" class="collapsible-header waves-effect arrow-r"><i class="fa fa-history"></i> Logs</a>
                     </li>
@@ -57,12 +52,9 @@
             </div>
             <!-- Breadcrumb-->
             <div class="breadcrumb-dn">
-                <p>AquaMetrix</p>
+                <p>AquaMetriX</p>
             </div>
             <ul class="nav navbar-nav float-xs-right">
-                <li class="nav-item ">
-                    <a class="nav-link waves-effect waves-light" data-toggle="modal" data-target="#myModalAdmin"><i class="fa fa-hand-grab-o"></i> <span class="hidden-sm-down">Pick Device</span></a>
-                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle waves-effect waves-light" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> Profile</a>
                     <div class="dropdown-menu dropdown-primary dd-right" aria-labelledby="dropdownMenu1" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
@@ -74,61 +66,7 @@
         <!--/.Navbar-->
     </header>
     <main>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-4 ph-container">
-                    <div class="card">
-                        <h3 class="card-header info-color-dark white-text">pH Meter</h3>
-                        <div class="card-block">
-                            <div id="wrapper">
-                                <img class="needle wlevel-0" src="../assets/img/gauge-needle.png" alt="">
-                                <canvas id="myPie"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <h3 class="card-header success-color-dark white-text">Turbidity Reading</h3>
-                        <div class="card-block card-block-temp flex-center">
-                            <h1 class="card-title"><span class="turb">5</span> NTU</h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <h3 class="card-header danger-color-dark white-text">Temperature Reading</h3>
-                        <div class="card-block card-block-temp flex-center">
-                            <h1 class="card-title"><span class="deg">25</span>&deg;C</h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <h3 class="card-header info-color-dark white-text">pH Level</h3>
-                        <div class="card-block" style="padding-left:0px;padding-right:15px;padding-top:0px">
-                            <canvas id="myChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <h3 class="card-header success-color-dark white-text">Turbidity</h3>
-                        <div class="card-block" style="padding-left:0px;padding-right:15px;padding-top:0px">
-                            <canvas id="myTurbid"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <h3 class="card-header danger-color-dark white-text">Temperature</h3>
-                        <div class="card-block" style="padding-left:0px;padding-right:15px;padding-top:0px">
-                            <canvas id="myTemp"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div id="map-container" class="z-depth-1" style="height: 100%; width: 100%"></div>
     </main>
     <div class="modal fade" id="myModalAdmin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -152,25 +90,20 @@
     </div>
     <script src="../assets/js/connect.js"></script>
     <script src="../assets/js/jquery-3.1.1.min.js"></script>
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+    </script>
+    <script src="http://maps.google.com/maps/api/js?key=AIzaSyDGJVa3emyIJKYX8PKfCwRbratKkcmJCy8"></script>
     <script src="../assets/js/socket.io.js"></script>
     <script src="../assets/js/tether.min.js"></script>
     <script src="../assets/js/bootstrap.min.js"></script>
     <script src="../assets/js/mdb.min.js"></script>
-    <script src="../assets/js/Chart.bundle.min.js"></script>
     <script src="../assets/js/aqualytics.js"></script>
     <script>
     $('.button-collapse').sideNav();
-    var aqua = Aqualytics.init();
-    aqua.getData();
-    socket.on("update params", function(sent) {
-        console.log(sent);
-        aqua.updateMeter(sent.ph);
-        aqua.updateTemperature(sent.temperature);
-        aqua.updateTurbidity(sent.turbidity);
-    })
 
     $('#myModalAdmin').on('show.bs.modal', function(e) {
-        aqua.getUserDevices(function(devices) {
+        Aqualytics.getUserDevices(function(devices) {
+            console.log(devices)
             for (var i = 0; i < devices.length; i++) {
                 var act = (devices[i].device_id == device_id) ? "active" : "";
                 $(".list-group").append(`<a href="#" data-id="${devices[i].device_id}" class="list-group-item pick-list ${act}">${devices[i].address}</a>`);
@@ -187,6 +120,57 @@
         localStorage.setItem("activeDev", device_id);
         $('#myModalAdmin').modal('hide')
     })
+
+    function init_map() {
+        var markers;
+        var var_location = new google.maps.LatLng(14.599320, 120.984097);
+
+        var var_mapoptions = {
+            center: var_location,
+            zoom: 10
+        };
+
+        var var_map = new google.maps.Map(document.getElementById("map-container"),
+            var_mapoptions);
+
+        Aqualytics.getUserDevices(function(dev) {
+            markers = dev.map(function(item, index) {
+                var var_marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(item.lat, item.lng),
+                    map: var_map,
+                    title: item.address
+                });
+
+                var contentString = '<div id="content">' +
+                    '<div id="siteNotice">' +
+                    '</div>' +
+                    '<h1 id="firstHeading" class="firstHeading">'+item.address+'</h1>';
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: contentString
+                });
+
+                var_marker.addListener('click', function() {
+                    infowindow.open(var_map, var_marker)
+                })
+
+                return var_marker;
+
+            })
+        })
+
+        var markerCluster = new MarkerClusterer(var_map, markers, {
+            imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+        });
+
+        google.maps.event.addListener(var_map, 'bounds_changed', function(){
+	         if(var_map.getBounds().contains(markers[0].getPosition())){
+
+	         }
+	      });
+    }
+
+    init_map();
     </script>
 </body>
 

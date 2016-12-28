@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MD4 - Card</title>
+    <title>AquaMetriX - Logs</title>
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/mdb.min.css">
     <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
@@ -29,16 +29,17 @@
                     <li><a href="dashboard.html" class="collapsible-header waves-effect arrow-r"><i class="fa fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li><a href="users.html" class="collapsible-header waves-effect arrow-r"><i class="fa fa-user"></i> Users</a>
-                    </li>
-                    <li><a class="collapsible-header waves-effect arrow-r active"><i class="fa fa-history"></i> Logs</a>
-                    </li>
-                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-book"></i> Reports</a>
-                    </li>
-                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-wrench"></i> Settings</a>
-                    </li>
+                        <li><a href="maps.html" class="collapsible-header waves-effect arrow-r"><i class="fa fa-map-o"></i> Maps</a>
+                        </li>
+                        <li><a class="collapsible-header waves-effect arrow-r active"><i class="fa fa-history"></i> Logs</a>
+                        </li>
+                        <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-book"></i> Reports</a>
+                        </li>
+                        <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-wrench"></i> Settings</a>
+                        </li>
                 </ul>
-            </li>
-            <!--/. Side navigation links -->
+                </li>
+                <!--/. Side navigation links -->
         </ul>
         <!--/. Sidebar navigation -->
         <!--Navbar-->
@@ -49,7 +50,7 @@
             </div>
             <!-- Breadcrumb-->
             <div class="breadcrumb-dn">
-                <p>Hydroid</p>
+                <p>AquaMetriX</p>
             </div>
             <ul class="nav navbar-nav float-xs-right">
                 <li class="nav-item ">
@@ -66,6 +67,11 @@
         <!--/.Navbar-->
     </header>
     <main>
+        <progress class="progress" value="25" max="100" hidden>
+            <div class="progress">
+                <span class="progress-bar" style="width: 25%;">25%</span>
+            </div>
+        </progress>
         <div class="container">
             <!-- <div class="col-sm-3">
                 <div class="md-form">
@@ -135,36 +141,12 @@
     $('.button-collapse').sideNav();
     $(document).ready(function() {
         var aqua = Aqualytics.init();
-        //if(page==1){ $("ul.pagination li:first").addClass("disabled") }
-        aqua.getLog(page, function(data, max) {
-            for (var i = 0; i < data.length; i++) {
-                $("tbody").append(`
-                    <tr>
-                <td class="log-date" scope="row">${data[i].date}</td>
-                <td class="log-time">${data[i].time}</td>
-                <td class="log-ph">${data[i].ph_level}</td>
-                <td class="log-turbid">N/A</td>
-                <td class="log-temp">${data[i].temperature}</td>
-            </tr>
-                `)
-            }
-            for (var i = page + 4; i > page - 1; i--) {
-                if (i == page) {
-                    $("ul.pagination li:first").after(`<li class="page-item page-number active"><span class="page-link">${i}</span>
-                </li>`);
-                } else {
-                    $("ul.pagination li:first").after(`<li class="page-item page-number"><span class="page-link">${i}</span>
-                    </li>`);
-                }
-            }
-        });
         $('.datepicker').pickadate({
             today: 'Today',
             clear: '',
             close: ''
         });
         $('#myModal').on('show.bs.modal', function(e) {
-            alert("sdf");
             aqua.getUserDevices(function(devices) {
                 console.log(devices)
                 for (var i = 0; i < devices.length; i++) {
@@ -184,13 +166,12 @@
             $('#myModal').modal('hide')
         })
 
-        $("ul.pagination li:first").click(function() {
-            page--;
-            $(".page-number").remove();
-            $("tbody tr").remove();
-            Aqualytics.getLog(page, function(data, max) {
-                for (var i = 0; i < data.length; i++) {
-                    $("tbody").append(`
+        if (page == 1) {
+            $("ul.pagination li:first").addClass("disabled")
+        }
+        Aqualytics.getLog(page, function(data, max) {
+            for (var i = 0; i < data.length; i++) {
+                $("tbody").append(`
                     <tr>
                 <td class="log-date" scope="row">${data[i].date}</td>
                 <td class="log-time">${data[i].time}</td>
@@ -199,31 +180,63 @@
                 <td class="log-turbid">N/A</td>
             </tr>
                 `)
-                }
-                for (var i = page + 4; i > page - 1; i--) {
-                    if (i == page) {
-                        $("ul.pagination li:first").after(`<li class="page-item page-number active"><span class="page-link">${i}</span>
+            }
+            for (var i = page + 4; i > page - 1; i--) {
+                if (i == page) {
+                    $("ul.pagination li:first").after(`<li class="page-item page-number active"><span class="page-link">${i}</span>
                 </li>`);
-                    } else {
-                        $("ul.pagination li:first").after(`<li class="page-item page-number"><span class="page-link">${i}</span>
+                } else {
+                    $("ul.pagination li:first").after(`<li class="page-item page-number"><span class="page-link">${i}</span>
                     </li>`);
-                    }
+                }
+            }
+        });
+
+        $("ul.pagination li:first").click(function() {
+            page--;
+            Aqualytics.getLog(page, function(data, max) {
+                if (page == 1) {
+                    $("ul.pagination li:first").addClass("disabled")
+                } else {
+                    $("ul.pagination li:first").removeClass("disabled")
+                }
+
+                $(".page-number").remove();
+                $("tbody tr").remove();
+
+                console.log(page, max)
+                Aqualytics.fixPagination(page, 5, max);
+                for (var i = 0; i < data.length; i++) {
+                    $("tbody").append(`
+                        <tr>
+                    <td class="log-date" scope="row">${data[i].date}</td>
+                    <td class="log-time">${data[i].time}</td>
+                    <td class="log-ph">${data[i].ph_level}</td>
+                    <td class="log-temp">${data[i].temperature}</td>
+                    <td class="log-turbid">N/A</td>
+                </tr>
+                    `)
                 }
             });
         })
 
+
+
         $(document).on('click', 'ul.pagination li.page-number', function() {
             $(this).parent().find("li.active").removeClass("active");
             page = parseInt($(this).text());
-            if (page == 1) {
-                $("ul.pagination li:first").addClass("disabled")
-            } else {
-                $("ul.pagination li:first").removeClass("disabled")
-            }
             Aqualytics.getLog(page, function(data, max) {
+                if (page == 1) {
+                    $("ul.pagination li:first").addClass("disabled")
+                } else {
+                    $("ul.pagination li:first").removeClass("disabled")
+                }
+
                 $(".page-number").remove();
                 $("tbody tr").remove();
-                Aqualytics.fixPagination(max);
+
+                console.log(page, max)
+                Aqualytics.fixPagination(page, 5, max);
                 for (var i = 0; i < data.length; i++) {
                     $("tbody").append(`
                         <tr>
