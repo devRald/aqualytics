@@ -6,7 +6,7 @@
 
 		/* insert models */
 		function create_log(){
-			$data = parent::insert(TBL_LOG, array("device_id"=>$_POST["device"],"ph_level"=>$_POST["ph"],"temperature"=>$_POST["temperature"]));
+			$data = parent::insert(TBL_LOG, array("device_id"=>$_POST["device"],"ph_level"=>$_POST["ph"],"temperature"=>$_POST["temperature"],"turbidity"=>$_POST["turbidity"]));
 
 			if($data){
 				return true;
@@ -66,7 +66,51 @@
 			}	
 		}
 
+		function update_device($id){
+			$data = parent::update(TBL_DEVICE,array("address"=>$_POST["address"],"lat"=>$_POST["latitude"],"lng"=>$_POST["longitude"]),"device_id=$id");
+			if($data){
+				return $this->get_device($id);
+			}else{
+				return false;
+			}	
+		}
+
 		/* end update models */
+
+		/* delete models */
+		function delete_user($id){
+			$data = parent::select("*")->from(TBL_DEVICE)->where("user_id=$id")->get();
+
+			if(count($data) > 0){
+				foreach ($data as $value) {
+					$this->delete_device($value["device_id"]);
+				}
+			}
+
+			$data = parent::delete(TBL_USER,"id=$id");
+			if($data){
+				return true;
+			}else{
+				return false;
+			}
+		}
+
+		function delete_device($device="",$id=""){
+			$data = parent::delete(TBL_DEVICE,"device_id=$device");
+			if($data){
+				$this->delete_device_logs($device);
+				return true;
+			}else{
+				return false;
+			}
+		}
+
+		function delete_device_logs($id){
+			$data = parent::delete(TBL_LOG,"device_id=$id");
+		}
+
+
+		/* end delete models */
 
 		/* get models */
 		
@@ -117,11 +161,34 @@
 			}			
 		}
 
+		function get_device($id){
+			$data = parent::select("*")->from(TBL_DEVICE)->where("device_id=$id")->get_first_row();
+			if($data){
+				return $data;
+			}else{
+				return null;
+			}
+		}
+
+		function get_device_latest(){
+			$data = parent::select("device_id, address, lat, lng")->from("device")->get();
+			if($data){
+				foreach ($data as $value) {
+					$extend = $this->get_logs($value["device_id"],1,1)["results"][0];
+					$rows[] = array("device_id"=>$value["device_id"],"address"=>$value["address"],"lat"=>$value["lat"],"lng"=>$value["lng"],"ph_level"=>$extend["ph_level"],"turbidity"=>$extend["turbidity"],"temperature"=>$extend["temperature"]);
+				}
+				return $rows;
+			}else{
+				return null;
+			}
+		}
+
 		function get_user_device_list($id){
 			$data = parent::select("*")->from(TBL_DEVICE)->where("user_id=$id")->get();
 			if($data){
 				foreach ($data as $value) {
-					$rows[] = array("device_id"=>$value["device_id"],"address"=>$value["address"],"lat"=>$value["lat"],"lng"=>$value["lng"]);
+					$extend = $this->get_logs($value["device_id"],1,1)["results"][0];
+					$rows[] = array("device_id"=>$value["device_id"],"address"=>$value["address"],"lat"=>$value["lat"],"lng"=>$value["lng"],"ph_level"=>$extend["ph_level"],"turbidity"=>$extend["turbidity"],"temperature"=>$extend["temperature"]);
 				}
 				return $rows;
 			}else{
@@ -130,7 +197,7 @@
 		}
 
 		function get_logs($id,$page,$offset){
-			$data["results"] = parent::select("DATE(date_created) as `date`, TIME(date_created) as `time`,ph_level,temperature")->from(TBL_LOG)->where("device_id=$id")->order_by("id","DESC")->limit($page,$offset)->get();
+			$data["results"] = parent::select("id, DATE(date_created) as `date`, TIME(date_created) as `time`,ph_level,temperature,turbidity")->from(TBL_LOG)->where("device_id=$id")->order_by("id","DESC")->limit($page,$offset)->get();
 			$res = parent::select("COUNT(id) as total")->from(TBL_LOG)->where("device_id=$id")->get_first_row();
 			$data["max_page"] = ceil($res["total"] / 10);
 			return $data;
@@ -142,24 +209,62 @@
 		}
 
 		function get_notif($id){
-			$data = parent::select("id,DATE(notif.date_created) as date, TIME(notif.date_created) as time, notif.category, notif.title, notif.description, notif.status, notif.device_id")->from(TBL_NOTIF)->where("id=$id")->get_first_row();
+			$data = parent::select("id,DATE(notif.date_created) as date, TIME(notif.date_created) as time, notif.category, notif.title, notif.description, notif.status, notif.device_id, device.user_id, device.address")->from(TBL_NOTIF)->join(TBL_DEVICE,"notif.device_id=device.device_id")->where("id=$id")->get_first_row();
 			return $data;
 		}
 
-		function get_avg($id,$type,$date){
+		function get_report($id,$type,$date){
+			$result["ph"] = $this->get_summary($id,$type,$date,"ph_level");
+			$result["turbidity"] = $this->get_summary($id,$type,$date,"turbidity");
+			$result["temperature"] = $this->get_summary($id,$type,$date,"temperature");
+
+			return $result;
+		}
+
+		function get_report_admin($id,$type,$date){
+			$result["ph"] = $this->get_summary_admin($id,$type,$date,"ph_level");
+			$result["turbidity"] = $this->get_summary_admin($id,$type,$date,"turbidity");
+			$result["temperature"] = $this->get_summary_admin($id,$type,$date,"temperature");
+
+			return $result;
+		}
+
+		function get_summary($id,$type,$date,$cat){
 			switch ($type) {
-				case 'day':
-					$data = parent::select("AVG(ph_level) as ph,AVG(turbidity) as turbidity,AVG(temperature) as temperature")->from("water_data")->where("device_id = $id and DAY(date_created)=".get_date($type,$date))->get();
+				case 'day': 
+					$data = parent::select("ROUND(AVG($cat),2) as average, MAX($cat) as max, MIN($cat) as min")->from("water_data")->where("device_id = $id and DATE(date_created)='".$date."'")->get()[0];
+
+					$data["data"] = parent::select("TIME(date_created) as date,$cat as val")->from("water_data")->where("device_id = $id and DATE(date_created)='".$date."'")->get();
+
 					break;
 				case 'month':
-					$data = parent::select("AVG(ph_level) as ph,AVG(turbidity) as turbidity,AVG(temperature) as temperature")->from("water_data")->where("device_id = $id and MONTH(date_created)=" . get_date($type,$date))->get();
+					$data = parent::select("ROUND(AVG($cat),2) as average, MAX($cat) as max, MIN($cat) as min")->from("water_data")->where("device_id = $id and MONTH(date_created)='".get_date("month",$date)."' and YEAR(date_created)='".get_date("year",$date)."'")->get()[0];
+
+					$data["data"] = parent::select("DATE(date_created) as date,$cat as val")->from("water_data")->where("device_id = $id and MONTH(date_created)='".get_date("month",$date)."' and YEAR(date_created)='".get_date("year",$date)."'")->group_by("DATE(date_created)")->get();
+
 					break;
 				case 'year':
-					$data = parent::select("AVG(ph_level) as ph,AVG(turbidity) as turbidity,AVG(temperature) as temperature")->from("water_data")->where("device_id = $id and YEAR(date_created)=". get_date($type,$date))->get();
+					$data = parent::select("ROUND(AVG($cat),2) as average, MAX($cat) as max, MIN($cat) as min")->from("water_data")->where("device_id = $id and MONTH(date_created)='".get_date("month",$date)."' and YEAR(date_created)='".get_date("year",$date)."'")->get()[0];
+
+					$data["data"] = parent::select("MONTHNAME(date_created) as date,$cat as val")->from("water_data")->where("device_id = $id and YEAR(date_created)='".get_date("year",$date)."'")->group_by("MONTH(date_created)")->get();
 					break;
 			}
 
-			return $data[0];
+			return $data;
+		}
+
+		function get_summary_admin($id,$type,$date,$cat){
+			switch ($type) {
+				case 'month':
+					$data["data"] = parent::select("DATE(date_created) as date,ROUND(AVG($cat),2) as val")->from("water_data")->where("device_id = $id and MONTH(date_created)='".get_date("month",$date)."' and YEAR(date_created)='".get_date("year",$date)."'")->group_by("DATE(date_created)")->get();
+
+					break;
+				case 'year':
+					$data["data"] = parent::select("MONTHNAME(date_created) as date,ROUND(AVG($cat),2) as val")->from("water_data")->where("device_id = $id and YEAR(date_created)='".get_date("year",$date)."'")->group_by("MONTH(date_created)")->get();
+					break;
+			}
+
+			return $data;
 		}
 
 		/* end get models */

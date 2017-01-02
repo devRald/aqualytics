@@ -46,6 +46,31 @@
 
 		/* end insert functions */
 
+		/* delete functions */
+		function delete_device($id){
+			$data = $this->water->delete_device($id);
+			if($data!=null){
+				header("Content-Type:application/json");
+				echo json_encode($data);
+			}else{
+				echo 0;
+			}
+		}
+
+		function delete_user($id){
+			$data = $this->water->delete_user($id);
+			if($data!=null){
+				header("Content-Type:application/json");
+				echo json_encode($data);
+			}else{
+				echo 0;
+			}	
+		}
+
+
+
+		/* end delete functions */
+
 		/* update functions */
 		function update_notification($id){
 			$data = $this->water->update_notif($id);
@@ -59,6 +84,16 @@
 
 		function update_user($id){
 			$data = $this->water->update_user($id);
+			if($data!=null){
+				header("Content-Type:application/json");
+				echo json_encode($data);
+			}else{
+				echo 0;
+			}
+		}
+
+		function update_device($id){
+			$data = $this->water->update_device($id);
 			if($data!=null){
 				header("Content-Type:application/json");
 				echo json_encode($data);
@@ -107,6 +142,14 @@
 			}	
 		}
 
+		function get_device_latest(){
+			$data = $this->water->get_device_latest();
+			if($data!=null){
+				header("Content-Type:application/json");
+				echo json_encode($data);
+			}	
+		}
+
 		function get_device_logs($id,$page,$offset){
 			$data = $this->water->get_logs($id,$page,$offset);
 			if($data!=0){
@@ -132,10 +175,44 @@
 		}
 
 		function get_reports($id,$type,$date){
-			$data["average"] = $this->water->get_avg($id,$type,$date);
+			switch($type){
+				case "day":
+						$data["result"] = $this->water->get_report($id,$type,$date);
+						break;
+				case "month":
+						$data["result"] = $this->water->get_report($id,$type,$date);
+						break;
+				case "year":
+						$data["result"] = $this->water->get_report($id,$type,$date);
+						break;
+			}
+
 			if($data!=null){
 				header("Content-Type:application/json");
 				echo json_encode($data);
+			}
+		}
+
+		function get_admin_reports($type,$date){
+			$overall;
+			foreach ($_GET["dev"] as $value) {
+				switch($type){
+					case "day":
+							$data = $this->water->get_report_admin($value["val"],$type,$date);
+							break;
+					case "month":
+							$data = $this->water->get_report_admin($value["val"],$type,$date);
+							break;
+					case "year":
+							$data = $this->water->get_report_admin($value["val"],$type,$date);
+							break;
+				}
+				$overall[$value["name"]] = $data;
+				$data = null;
+			}
+			if($overall!=null){
+				header("Content-Type:application/json");
+				echo json_encode($overall);
 			}
 		}
 

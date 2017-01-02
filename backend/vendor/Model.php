@@ -106,8 +106,10 @@
 			$str = "DELETE FROM $table WHERE $where";
 			$result = mysqli_query($this->conn,$str);
 			if(mysqli_affected_rows($this->conn) > 0){
-				echo 'nadelete';
-			}	
+				return true;
+			}
+
+			return false;
 		}
 
 		function get($table="",$fields="",$where="",$order="",$limit=""){

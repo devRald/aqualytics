@@ -255,6 +255,7 @@ Aqualytics = {
             type: "POST",
             data: params,
             success: function(data) {
+                window.users = data;
                 if (data != 0) {
                     $('#addUser').modal('hide')
                     toastr["info"]("User has been added.");
@@ -265,10 +266,10 @@ Aqualytics = {
                             <td class="user-email">${data.email}</td>
                             <td class="device-num">${data.devices}</td>
                             <td>
-                                <a class="blue-text"><i class="fa fa-eye"></i></a>
+                                <a id="viewDevice" class="blue-text"><i class="fa fa-eye"></i></a>
                                 <a id="addDevice" data-id="${data.id}" class="teal-text"><i class="fa fa-plus"></i></a>
-                                <a class="teal-text"><i class="fa fa-pencil"></i></a>
-                                <a class="red-text"><i class="fa fa-times"></i></a>
+                                <a id="editUser" class="teal-text"><i class="fa fa-pencil"></i></a>
+                                <a id="deleteUser" class="red-text"><i class="fa fa-times"></i></a>
                             </td>
                         </tr>`);
                 }
@@ -284,27 +285,64 @@ Aqualytics = {
                 if (data == 0) {
                     toastr["info"]("There is no changes made.");
                 } else {
-                    element.parent("td").parent("tr").find("td.user-email").text(data.email);
-                    element.parent("td").parent("tr").find("td.user-firstname").text(data.firstname);
-                    element.parent("td").parent("tr").find("td.user-lastname").text(data.lastname);
+                    console.log(data,params)                    
+                    element.parent().parent().find("td.user-email").text(data.email);
+                    element.parent().parent().find("td.user-firstname").text(data.firstname);
+                    element.parent().parent().find("td.user-lastname").text(data.lastname);
                     toastr["info"]("User info has been updated.");
                 }
             }
         })
     },
-    addDevice: function(params) {
+    addDevice: function(params, id) {
+        if (id != null) window.user_id = id;
         $.ajax({
             url: "/aqualytics/backend/api/v1/device",
             type: "POST",
-            data: params + '&user_id=' + user_id,
+            data: params + '&user_id=' + usr_id,
             success: function(data) {
+                console.log(data);
                 if (data != 0) {
-                    $('#addModal').modal('hide')
-                    var a = $("tr td.user-id:contains('" + user_id + "')");
-                    var b = a.parent("tr").find("td.device-num")
-                    var newvalue = parseInt(b.text()) + 1;
-                    b.html(newvalue)
+                    if (id != null) {
+                        $("#table-device").append(`<tr>
+                        <td class="device-id" scope="row">${data.device_id}</td>
+                        <td class="device-address">${data.address}</td>
+                        <td class="device-lat">${data.lat}</td>
+                        <td class="device-lng">${data.lng}</td>
+                        <td>
+                            <a id="editDevice" class="teal-text"><i class="fa fa-pencil"></i></a>
+                            <a id="deleteDevice" class="red-text"><i class="fa fa-times"></i></a>
+                        </td>
+                    </tr>`);
+                        $("#addModal").modal("hide");
+                    } else {
+                        $('#addModal').modal('hide')
+                        var a = $("tr:nth-child(" + window.table_index + ") > td.device-num");
+                        var newvalue = parseInt(b.text()) + 1;
+                        a.html(newvalue)
+                    }
+                    $("#addModal").modal("hide");
                     toastr["info"]("device has been added.");
+                }
+            }
+        })
+    },
+    editDevice: function(params,id) {
+        $.ajax({
+            url: host + "/aqualytics/backend/api/v1/device/update/" + id,
+            type: "POST",
+            dataType:"JSON",
+            data: params,
+            success: function(data) {
+                console.log(data)
+                if (data == 0) {
+                    toastr["info"]("There is no changes made.");
+                } else {
+                    row.find("td.device-address").text(data.address);
+                    row.find("td.device-lat").text(data.lat);
+                    row.find("td.device-lng").text(data.lng);
+                    toastr["info"]("Device info has been updated.");
+                    $("#addModal").modal("hide");
                 }
             }
         })
@@ -386,10 +424,10 @@ Aqualytics = {
                         <td class="user-email">${data[i].email}</td>
                         <td class="device-num">${data[i].devices}</td>
                         <td>
-                            <a class="blue-text"><i class="fa fa-eye"></i></a>
+                            <a id="viewDevice" class="blue-text"><i class="fa fa-eye"></i></a>
                             <a id="addDevice" data-id="${data[i].id}" class="green-text"><i class="fa fa-plus"></i></a>
                             <a id="editUser" data-id="${i}" class="teal-text"><i class="fa fa-pencil"></i></a>
-                            <a class="red-text"><i class="fa fa-times"></i></a>
+                            <a id="deleteUser" class="red-text"><i class="fa fa-times"></i></a>
                         </td>
                     </tr>`);
                 }
@@ -397,9 +435,20 @@ Aqualytics = {
             }
         })
     },
-    getUserDevices: function(callback) {
-        var json = JSON.parse(atob(localStorage.getItem("userdata")));
-        callback(json.devices);
+    getUserDevices: function(callback, id) {
+        if (id != null) {
+            $.ajax({
+                url: host + "/aqualytics/backend/api/v1/device/list/" + id,
+                type: "GET",
+                success: function(result) {
+                    window.devices = result;
+                    callback(result);
+                }
+            })
+        } else {
+            var json = JSON.parse(atob(localStorage.getItem("userdata")));
+            callback(json.devices);
+        }
     },
     getNotifications: function(callback) {
         var id = JSON.parse(atob(localStorage.getItem("userdata"))).id;
@@ -426,6 +475,17 @@ Aqualytics = {
         }
 
         toastr[type](msg);
+    },
+    getParameterByName: function(name, url) {
+        if (!url) {
+            url = window.location.href;
+        }
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 }
 

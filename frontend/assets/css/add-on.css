@@ -86,3 +86,42 @@ ul.collapsible li {
 .modal-card > .card{
     max-width: 500px;
 }
+
+
+/*admin*/
+.cascading-admin-card{
+    margin-top: 20px;
+}
+
+.cascading-admin-card{
+    display: inline-block;
+}
+
+.cascading-admin-card .admin-up{
+    margin-left: 4%;
+    margin-right: 4%;
+    margin-top: -20px;
+}
+
+.cascading-admin-card .admin-up .fa {
+    padding: 1.7rem;
+    font-size: 2rem;
+    color: #fff;
+    text-align: left;
+    margin-right: 1rem;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.cascading-admin-card .admin-up .data {
+    float: right;
+    margin-top: 2rem;
+    text-align: right;
+}
+
+.card{
+    width:100%;
+}

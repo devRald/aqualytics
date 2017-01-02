@@ -51,6 +51,15 @@
 		}
 	}
 
+	//update user device
+	if(preg_match("/^\/api\/v1\/device\/update\/\d+$/", $_SERVER['PATH_INFO'])){
+		if($method=="POST"){
+			load("Water_API_Controller");
+			$api = new Water_API_Controller();
+			$api->update_device($request[5]);
+		}
+	}
+
 	//user login
 	if(preg_match("/^\/api\/v1\/user\/login$/", $_SERVER['PATH_INFO'])){
 		if($method=="POST"){
@@ -96,6 +105,15 @@
 		}
 	}
 
+	//get device latest
+	if(preg_match("/^\/api\/v1\/device\/latest$/", $_SERVER['PATH_INFO'])){
+		if($method=="GET"){
+			load("Water_API_Controller");
+			$api = new Water_API_Controller();
+			$api->get_device_latest();	
+		}
+	}
+
 	//get log details of specific device
 	if(preg_match("/^\/api\/v1\/device\/log\/\d+$/", $_SERVER['PATH_INFO'])){
 		if($method=="GET"){
@@ -136,8 +154,28 @@
 		}
 	}
 
-	if(preg_match("/^$/", $_SERVER['PATH_INFO'])){
-		
+	if(preg_match("/^\/api\/v1\/report\/admin\/(year|month|day)\/\d{4}-\d{1,2}-\d{1,2}$/", $_SERVER['PATH_INFO'])){
+		if($method=="GET"){
+			load("Water_API_Controller");
+			$api = new Water_API_Controller();
+			$api->get_admin_reports($request[5],$request[6]);
+		}
+	}
+
+	if(preg_match("/^\/api\/v1\/device\/delete\/\d+$/", $_SERVER['PATH_INFO'])){
+		if($method=="POST"){
+			load("Water_API_Controller");
+			$api = new Water_API_Controller();
+			$api->delete_device($request[5]);
+		}
+	}
+
+	if(preg_match("/^\/api\/v1\/user\/delete\/\d+$/", $_SERVER['PATH_INFO'])){
+		if($method=="POST"){
+			load("Water_API_Controller");
+			$api = new Water_API_Controller();
+			$api->delete_user($request[5]);
+		}
 	}
 
 	if(preg_match("/^$/", $_SERVER['PATH_INFO'])){

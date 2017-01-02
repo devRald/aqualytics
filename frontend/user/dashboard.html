@@ -39,7 +39,7 @@
                     </li>
                     <li><a href="notification.html" class="collapsible-header waves-effect arrow-r"><i class="fa fa-bell"></i>Notification <span class="tag red pull-right new-tag"></span></a>
                     </li>
-                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-book"></i> Reports</a>
+                    <li><a href="reports.html" class="collapsible-header waves-effect arrow-r"><i class="fa fa-book"></i> Reports</a>
                     </li>
                     <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-wrench"></i> Settings</a>
                     </li>
@@ -75,7 +75,7 @@
     <main class="view hm-black-strong">
         <!-- <div class="overlay overlay-b flex-center"></div> -->
         <div class="container-fluid">
-            <div class="row">
+            <div>
                 <div class="col-md-4 ph-container">
                     <div class="card">
                         <h3 class="card-header info-color-dark white-text">pH Meter</h3>
@@ -166,9 +166,12 @@
     var aqua = Aqualytics.init();
     aqua.getData();
     socket.on("update params", function(sent) {
-        aqua.updateMeter(sent.ph);
-        aqua.updateTemperature(sent.temperature);
-        aqua.updateTurbidity(sent.turbidity);
+        console.log(sent.device,device_id,sent.device == device_id)
+        if(sent.device == device_id){
+            aqua.updateMeter(sent.ph);
+            aqua.updateTemperature(sent.temperature);
+            aqua.updateTurbidity(sent.turbidity);
+        }
     })
 
     $('#myModal').on('loaded.bs.modal', function(e) {

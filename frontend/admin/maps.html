@@ -35,7 +35,7 @@
                     </li>
                     <li><a href="logs.html" class="collapsible-header waves-effect arrow-r"><i class="fa fa-history"></i> Logs</a>
                     </li>
-                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-book"></i> Reports</a>
+                    <li><a href="reports.html" class="collapsible-header waves-effect arrow-r"><i class="fa fa-book"></i> Reports</a>
                     </li>
                     <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-wrench"></i> Settings</a>
                     </li>
@@ -121,7 +121,18 @@
         $('#myModalAdmin').modal('hide')
     })
 
-    function init_map() {
+    $(document).ready(function(){
+        $.ajax({
+            url:host + "/aqualytics/backend/api/v1/device/latest",
+            type:"GET",
+            success: function(data){
+                console.log(data)
+                init_map(data);
+            }
+        })
+    })
+
+    function init_map(data) {
         var markers;
         var var_location = new google.maps.LatLng(14.599320, 120.984097);
 
@@ -133,30 +144,33 @@
         var var_map = new google.maps.Map(document.getElementById("map-container"),
             var_mapoptions);
 
-        Aqualytics.getUserDevices(function(dev) {
-            markers = dev.map(function(item, index) {
-                var var_marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(item.lat, item.lng),
-                    map: var_map,
-                    title: item.address
-                });
+        markers = data.map(function(item, index) {
+            
+            var var_marker = new google.maps.Marker({
+                position: new google.maps.LatLng(item.lat, item.lng),
+                map: var_map,
+                title: item.address
+            });
 
-                var contentString = '<div id="content">' +
-                    '<div id="siteNotice">' +
-                    '</div>' +
-                    '<h1 id="firstHeading" class="firstHeading">'+item.address+'</h1>';
+            item.ph_level = (item.ph_level!=null) ? item.ph_level : '0';
+            item.turbidity = (item.turbidity!=null) ? item.turbidity : '0';
+            item.temperature = (item.temperature!=null) ? item.temperature : '0'; 
 
-                var infowindow = new google.maps.InfoWindow({
-                    content: contentString
-                });
+            var contentString = '<div id="content">' +
+                '<div id="siteNotice">' +
+                '</div>' +
+                '<h1 id="firstHeading" class="firstHeading">'+item.address+'</h1><ul><li>ph Level - '+ item.ph_level +'</li><li>Turbidity - '+ item.turbidity +'</li><li>Temperature - '+ item.temperature +'</li></ul>';
 
-                var_marker.addListener('click', function() {
-                    infowindow.open(var_map, var_marker)
-                })
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
 
-                return var_marker;
-
+            var_marker.addListener('click', function() {
+                infowindow.open(var_map, var_marker)
             })
+
+            return var_marker;
+
         })
 
         var markerCluster = new MarkerClusterer(var_map, markers, {
@@ -169,8 +183,6 @@
 	         }
 	      });
     }
-
-    init_map();
     </script>
 </body>
 

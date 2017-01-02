@@ -35,7 +35,7 @@
                     </li>
                     <li><a href="notification.html" class="collapsible-header waves-effect arrow-r"><i class="fa fa-bell"></i>Notification <span class="tag red pull-right new-tag"></span></a>
                     </li>
-                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-book"></i> Reports</a>
+                    <li><a href="reports.html" class="collapsible-header waves-effect arrow-r"><i class="fa fa-book"></i> Reports</a>
                     </li>
                     <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-wrench"></i> Settings</a>
                     </li>
@@ -148,7 +148,7 @@
                 <td class="log-time">${data[i].time}</td>
                 <td class="log-ph">${data[i].ph_level}</td>
                 <td class="log-temp">${data[i].temperature}</td>
-                <td class="log-turbid">N/A</td>
+                <td class="log-turbid">${data[i].turbidity}</td>
             </tr>
                 `)
             }
@@ -184,7 +184,7 @@
                     <td class="log-time">${data[i].time}</td>
                     <td class="log-ph">${data[i].ph_level}</td>
                     <td class="log-temp">${data[i].temperature}</td>
-                    <td class="log-turbid">N/A</td>
+                    <td class="log-turbid">${data[i].turbidity}</td>
                 </tr>
                     `)
                 }
@@ -215,7 +215,7 @@
                     <td class="log-time">${data[i].time}</td>
                     <td class="log-ph">${data[i].ph_level}</td>
                     <td class="log-temp">${data[i].temperature}</td>
-                    <td class="log-turbid">N/A</td>
+                    <td class="log-turbid">${data[i].turbidity}</td>
                 </tr>
                     `)
                 }
